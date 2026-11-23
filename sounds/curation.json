@@ -1,0 +1,302 @@
+[
+  {
+    "key": "bsb-2955",
+    "file": "bigsoundbank/2955.mp3",
+    "title": "Barking dog #3",
+    "verdict": "sausage",
+    "role": "bark",
+    "start": null,
+    "end": 1.8835664887317003,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2450",
+    "file": "bigsoundbank/2450.mp3",
+    "title": "Dog singing #1",
+    "verdict": "husky",
+    "role": "talk / howl",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2451",
+    "file": "bigsoundbank/2451.mp3",
+    "title": "Dog singing #2",
+    "verdict": "husky",
+    "role": "talk / howl",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0682",
+    "file": "bigsoundbank/0682.mp3",
+    "title": "Barking of a Spitz",
+    "verdict": "sausage",
+    "role": "growl + bark",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0612",
+    "file": "bigsoundbank/0612.mp3",
+    "title": "Small dog barking",
+    "verdict": "husky",
+    "role": "bark",
+    "start": 4.385326927900743,
+    "end": 6.790077303505635,
+    "notes": ""
+  },
+  {
+    "key": "bsb-3537",
+    "file": "bigsoundbank/3537.mp3",
+    "title": "Small Dog Barking Behind Door",
+    "verdict": "both",
+    "role": "bark",
+    "start": 0,
+    "end": 10.44500541736156,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1060",
+    "file": "bigsoundbank/1060.mp3",
+    "title": "2 small dogs bark and growl",
+    "verdict": "sausage",
+    "role": "bark + growl",
+    "start": 0.120192,
+    "end": 3.9362418258152854,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0868",
+    "file": "bigsoundbank/0868.mp3",
+    "title": "2 dogs barking",
+    "verdict": "both",
+    "role": "bark",
+    "start": null,
+    "end": null,
+    "notes": "can be used when they meet"
+  },
+  {
+    "key": "bsb-2352",
+    "file": "bigsoundbank/2352.mp3",
+    "title": "Old dog barking #1",
+    "verdict": "husky",
+    "role": "grumpy bark",
+    "start": null,
+    "end": 2.0957692654433084,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0112",
+    "file": "bigsoundbank/0112.mp3",
+    "title": "Barking Dog Inside",
+    "verdict": "husky",
+    "role": "bark",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1545",
+    "file": "bigsoundbank/1545.mp3",
+    "title": "Dogs barking and crying #2",
+    "verdict": "husky",
+    "role": "whine",
+    "start": 5.002627454123192,
+    "end": 8.278598037784153,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1547",
+    "file": "bigsoundbank/1547.mp3",
+    "title": "Dogs Breathing",
+    "verdict": "husky",
+    "role": "panting",
+    "start": 0,
+    "end": 6.195534268152115,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2071",
+    "file": "bigsoundbank/2071.mp3",
+    "title": "Cereal in bowl #1",
+    "verdict": "both",
+    "role": "kibble into bowl",
+    "start": null,
+    "end": 1.7801462434812074,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2072",
+    "file": "bigsoundbank/2072.mp3",
+    "title": "Cereal in bowl #2",
+    "verdict": "both",
+    "role": "kibble into bowl",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1594",
+    "file": "bigsoundbank/1594.mp3",
+    "title": "Raw carrot crunched #1",
+    "verdict": "both",
+    "role": "crunch / eat",
+    "start": 0,
+    "end": 5.102414810343118,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0352",
+    "file": "bigsoundbank/0352.mp3",
+    "title": "Mouth Noises #1",
+    "verdict": "both",
+    "role": "mouth / lick",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0784",
+    "file": "bigsoundbank/0784.mp3",
+    "title": "Sniff",
+    "verdict": "both",
+    "role": "sniff",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1406",
+    "file": "bigsoundbank/1406.mp3",
+    "title": "Yawn #1",
+    "verdict": "husky",
+    "role": "yawn (pitch up)",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-3439",
+    "file": "bigsoundbank/3439.mp3",
+    "title": "Woman sneezing",
+    "verdict": "sausage",
+    "role": "sneeze (pitch up)",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1809",
+    "file": "bigsoundbank/1809.mp3",
+    "title": "Snoring child #2",
+    "verdict": "both",
+    "role": "snore (loop)",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0879",
+    "file": "bigsoundbank/0879.mp3",
+    "title": "Squeaker toy #2",
+    "verdict": "both",
+    "role": "squeaky toy",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-3331",
+    "file": "bigsoundbank/3331.mp3",
+    "title": "Couinement jouet #1",
+    "verdict": "both",
+    "role": "squeaky toy",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-3336",
+    "file": "bigsoundbank/3336.mp3",
+    "title": "Couinement jouet #6",
+    "verdict": "both",
+    "role": "squeaky toy",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2205",
+    "file": "bigsoundbank/2205.mp3",
+    "title": "Cracking ice #1",
+    "verdict": "both",
+    "role": "egg crack",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-2206",
+    "file": "bigsoundbank/2206.mp3",
+    "title": "Cracking ice #2",
+    "verdict": "both",
+    "role": "egg crack",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0192",
+    "file": "bigsoundbank/0192.mp3",
+    "title": "Swirl in the water",
+    "verdict": "both",
+    "role": "bath water",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-1529",
+    "file": "bigsoundbank/1529.mp3",
+    "title": "Splash, Small #1",
+    "verdict": "sausage",
+    "role": "splash",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "bsb-0183",
+    "file": "bigsoundbank/0183.mp3",
+    "title": "Water Bubble #2",
+    "verdict": "both",
+    "role": "bath bubbles",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "commons-Puppy_at_a_night",
+    "file": "commons/Puppy_at_a_night.ogg",
+    "title": "Puppy at a night.ogg",
+    "verdict": "both",
+    "role": "baby whine / cry",
+    "start": null,
+    "end": null,
+    "notes": ""
+  },
+  {
+    "key": "commons-Barking_of_a_dog",
+    "file": "commons/Barking_of_a_dog.ogg",
+    "title": "Barking of a dog.ogg",
+    "verdict": "sausage",
+    "role": "bark",
+    "start": null,
+    "end": null,
+    "notes": ""
+  }
+]
