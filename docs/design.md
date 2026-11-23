@@ -133,7 +133,6 @@ Outputs in `art/prototype/renders/`: hero sprite (transparent + soft shadow), no
 - Palette (after moodboards).
 - Shop and awards-book screens; full sticker list (Stage 7).
 
-## Project backlog (after launch)
+## Project backlog
 
-- **Mini-games** using gyro/touch (tilt maze, catch, rhythm with the speaker).
-- **Pets meeting across devices** (ESP-NOW): v1 = visits + item swaps + a few reactions; later play together, rivalry, friendship meter. Design for it now (pet IDs, tradeable items).
+Tracked as GitHub issues, grouped by milestone: [open issues](https://github.com/dancohen88/virtual-pets/issues) · [After launch milestone](https://github.com/dancohen88/virtual-pets/milestone/10). New backlog items go there, not here.
