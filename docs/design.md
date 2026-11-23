@@ -78,7 +78,7 @@ _Last updated: 2026-11-23_
 ### Art
 - **Blender, pre-rendered to 2D sprites**; no real-time 3D on device.
 - **Division of labour:** Claude scripts all modelling, rigging, rendering and conversion via headless Blender (`bpy`); the builder art-directs (moodboards, render feedback, approval). Fallback: the builder hand-sculpts a face if a pet isn't landing.
-- **Moodboards in PureRef**, one per pet, four sections: shape & proportion, material & colour, faces & expressions, personality & humour. Material and faces shared so the pets feel like one world. Brief: [`docs/moodboard-brief.md`](moodboard-brief.md).
+- **Moodboards** in a reference-board app (BeeRef suggested: free, open source), one per pet, four sections: shape & proportion, material & colour, faces & expressions, personality & humour. Material and faces shared so the pets feel like one world. Brief: [`docs/moodboard-brief.md`](moodboard-brief.md).
 - Premium plush toys are a reference for *qualities* (floppy, squashy, fabric-soft, deadpan faces); the creatures themselves are original designs.
 - **View:** ¾ view angled toward the player, head can turn to look at you; each pet has its own **home** background. **Static images for now**, maybe a few more later.
 - **Animation:** body frames rendered from Blender, **face as swappable layers** (face region rendered per expression for the same frames, composited on device), procedural squash/stretch and gyro wobble on top.

@@ -1,16 +1,16 @@
 # Moodboard brief
 
-Two boards, one per pet, made in **[PureRef](https://www.pureref.com)** (free; a canvas you drag images onto). They steer every modelling decision, so the time spent here pays back many times.
+Two boards, one per pet, made in a **reference-board app**: a canvas you drag images onto. Suggested: **[BeeRef](https://github.com/rbreu/beeref)** (free, open source, macOS builds on its releases page; check whether the original repo or an active fork has the latest build). [PureRef](https://www.pureref.com) (pay what you want) or a Pinterest board also work. They steer every modelling decision, so the time spent here pays back many times.
 
-**Where to keep them:** save each board as `art/moodboards/sausage-dog.pur` and `art/moodboards/husky.pur`, and export a PNG of each (PureRef: *Save → Export Scene*). That folder is **gitignored**: the boards are made of other people's images, so they stay off the public repo.
+**Where to keep them:** save each board in `art/moodboards/` (e.g. `sausage-dog.bee` and `husky.bee` in BeeRef), and export a PNG of each (an export option or a full-window screenshot). That folder is **gitignored**: the boards are made of other people's images, so they stay off the public repo.
 
 ## Ground rules
 
 - **Aim for 20–40 images per board.** Fewer reads as a guess; many more turns into noise.
 - **Reference qualities, not characters.** Collect what you love *about* things (an ear shape, a smug expression, a fabric texture). The pets will be original designs, not lookalikes of an existing toy or cartoon.
 - **The chosen style is cel-shaded with ink outlines.** Photos are great for shape and personality, but include stylised references (cartoons, illustrations, toy design) for how those qualities translate into flat colour and line.
-- **The screen is tiny (320×240).** Every few images, zoom the PureRef canvas out until each image is thumbnail-sized. If a shape or expression still reads, keep it. Detail that vanishes doesn't matter.
-- **Annotate.** PureRef lets you add text notes (right-click → *Text*). A two-word note ("these ears!", "too realistic") is worth more than three extra images.
+- **The screen is tiny (320×240).** Every few images, zoom the canvas out until each image is thumbnail-sized. If a shape or expression still reads, keep it. Detail that vanishes doesn't matter.
+- **Annotate.** Add short text notes on the canvas (or a sticky note / caption if your tool lacks text). A two-word note ("these ears!", "too realistic") is worth more than three extra images.
 
 ## Lay each board out in four zones
 
