@@ -2,8 +2,11 @@
 # and check that the firmware still builds for the device and the simulator.
 name: CI
 
+# push to main + every pull request: a push to a PR branch would otherwise fire both
+# triggers and run everything twice.
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:

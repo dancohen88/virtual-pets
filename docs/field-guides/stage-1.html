@@ -1,0 +1,395 @@
+<title>Stage 1 Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field notebook on grid paper; specimen cards are drawn like the pets,
+   with a thick ink outline and a flat offset shadow (the cel-shaded look). */
+:root {
+  --paper: #eaf1f5;      /* husky-ice grid paper */
+  --grid: #d3e0e8;
+  --card: #fbfdfe;
+  --ink: #3b2518;        /* cocoa outline, same family as the pets' ink */
+  --muted: #5f5249;
+  --caramel: #c9732f;    /* sausage dog */
+  --slate: #4f6688;      /* husky */
+  --leaf: #3f7d4e;       /* spotted / done */
+  --shade: #cbd8e1;      /* flat cel shadow */
+  --f-display: "Fredoka", "Avenir Next Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+    --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+  --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font: 17px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+.page { max-width: 980px; margin: 0 auto; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+h3 { font-size: 1.25rem; }
+p { margin: 0; max-width: 65ch; }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+code { background: var(--grid); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+a { color: var(--slate); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible + label { outline: 3px solid var(--caramel); outline-offset: 3px; }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.section { display: grid; gap: 20px; }
+.lede { color: var(--muted); font-size: 1.08rem; }
+
+/* Ink-outlined object: the one bold device on the page. */
+.inked { background: var(--card); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 6px 6px 0 var(--shade); }
+
+/* Hero */
+.hero { display: grid; gap: 18px; }
+.specimens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.specimen { padding: 14px 16px 16px; display: grid; gap: 6px; }
+.specimen img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; image-rendering: auto; }
+.tag { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.tag.saus { color: var(--caramel); } .tag.husk { color: var(--slate); }
+.specimen p { font-size: 0.95rem; color: var(--muted); }
+.tally { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--f-mono); font-size: 0.88rem; color: var(--muted); }
+.tally b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Habitat map */
+.map { padding: 18px; overflow-x: auto; }
+.parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 24px; list-style: none; padding: 0; margin: 0; }
+.parts li { display: grid; gap: 2px; min-width: 0; }
+.parts li strong { font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; }
+.parts li span { color: var(--muted); font-size: 0.95rem; }
+
+/* Ideas */
+.ideas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.idea { padding: 16px 18px; display: grid; gap: 10px; align-content: start; transition: transform 0.15s ease; }
+.idea.spotted { border-color: var(--leaf); }
+.idea dl { margin: 0; display: grid; gap: 6px; font-size: 0.95rem; }
+.idea dt { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.idea dd { margin: 0; min-width: 0; }
+.spot { justify-self: start; font: 600 0.9rem var(--f-display); color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 999px; padding: 4px 14px; cursor: pointer; }
+.spot[aria-pressed="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--card); }
+
+/* Experiments */
+.trials { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.trial { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-left: 4px solid var(--caramel); background: var(--card); border-radius: 0 12px 12px 0; }
+.trial input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--leaf); }
+.trial label { display: grid; gap: 4px; cursor: pointer; }
+.trial label strong { font-family: var(--f-display); font-weight: 500; font-size: 1.08rem; }
+.trial pre { margin: 4px 0 0; padding: 8px 10px; background: var(--grid); border-radius: 8px; overflow-x: auto; font: 0.85rem/1.5 var(--f-mono); }
+
+/* GitHub corner */
+.corner { padding: 20px 22px; display: grid; gap: 16px; }
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 24px; margin: 0; }
+.terms div { min-width: 0; }
+.terms dt { font-family: var(--f-display); font-weight: 600; }
+.terms dd { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.quiz { display: grid; gap: 18px; }
+.q { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; }
+.q legend { font-weight: 700; padding: 0; margin-bottom: 4px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 0.95rem var(--f-body); color: var(--ink); background: var(--paper); border: 2px solid var(--grid); border-radius: 10px; padding: 6px 12px; cursor: pointer; text-align: left; }
+.opt.right { border-color: var(--leaf); background: color-mix(in srgb, var(--leaf) 16%, var(--card)); }
+.opt.wrong { border-color: var(--caramel); }
+.why { font-size: 0.93rem; color: var(--muted); }
+
+/* Sticker book */
+.book { padding: 20px; display: grid; gap: 16px; }
+.stickers { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; }
+.sticker { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.sticker svg { width: 104px; height: 104px; transition: transform 0.25s ease, filter 0.25s ease; }
+.sticker.locked svg { filter: grayscale(1) opacity(0.35); }
+.sticker.got svg { transform: rotate(-4deg); }
+.sticker b { font-family: var(--f-display); font-weight: 600; }
+.sticker span { font-size: 0.85rem; color: var(--muted); }
+.progress { font-family: var(--f-mono); font-size: 0.9rem; color: var(--muted); }
+
+footer { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.95rem; color: var(--muted); }
+
+@media (max-width: 560px) {
+  .specimens { grid-template-columns: 1fr; }
+  body { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">Virtual Pets · Field guide · Stage 1 of 9</span>
+    <h1>Foundations: where the creatures' world got its bones</h1>
+    <p class="lede">Nothing hatches yet. This stage built the ground the pets will stand on: a game core that keeps time honestly, a simulator to watch it in, the first sketches of both creatures, and a public home on GitHub. Spot the ideas, run the experiments and collect the stickers.</p>
+    <div class="specimens">
+      <figure class="specimen inked" style="margin:0">
+        <img src="img/sausage-dog-baby.png" alt="Cel-shaded baby sausage dog with half-lidded, smug eyes and floppy cocoa ears" width="320" height="240">
+        <span class="tag saus">Specimen A · the sausage dog · baby</span>
+        <p>Temperament: cheeky. Field marks: long low body, one raised brow, an unimpressed smirk. Placeholder until the moodboards land.</p>
+      </figure>
+      <figure class="specimen inked" style="margin:0">
+        <img src="img/husky-baby.png" alt="Cel-shaded baby husky with a grey mask, pale blue eyes and an open, tongue-out grin" width="320" height="240">
+        <span class="tag husk">Specimen B · the husky · baby</span>
+        <p>Temperament: boisterous. Field marks: grey mask, curled tail, tongue out, eyes locked on you. Placeholder until the moodboards land.</p>
+      </figure>
+    </div>
+    <div class="tally" aria-label="Stage 1 in numbers">
+      <span><b>27</b> host tests passing</span>
+      <span><b>3</b> build targets</span>
+      <span><b>7.9%</b> of device flash used</span>
+      <span><b>38</b> credited sound clips</span>
+      <span><b>10</b> milestones · <b>12</b> issues</span>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="map-h">
+    <span class="eyebrow">Habitat map</span>
+    <h2 id="map-h">What we built, and how it hangs together</h2>
+    <p>One game core, three ways to run it. The core never talks to hardware directly; everything goes through small interfaces, so the same code runs in tests on your Mac, in the simulator window, and on the Core2.</p>
+    <div class="map inked">
+<pre class="mermaid">
+flowchart LR
+  subgraph core["lib/petcore · pure C++"]
+    SIM[Simulation<br/>needs + hidden health]
+    SCH[Schedule<br/>school · bedtime · holiday]
+    CLK[Clock<br/>monotonic + accelerated]
+    TUN[Tuning.h<br/>every number]
+  end
+  T["native<br/>27 Unity tests"] --> core
+  S["sim<br/>SDL window on the Mac"] --> M["src/m5<br/>M5Unified platform"]
+  D["core2<br/>the device"] --> M
+  M --> core
+  CI["GitHub Actions"] -. runs .-> T
+  CI -. builds .-> S
+  CI -. builds .-> D
+</pre>
+    </div>
+    <ul class="parts">
+      <li><strong>Game core</strong><span><code>firmware/lib/petcore/</code>: needs, schedule, clocks, all tested.</span></li>
+      <li><strong>Simulator</strong><span><code>pio run -e sim -t exec</code>: the real M5 graphics library in a Mac window.</span></li>
+      <li><strong>Device build</strong><span><code>pio run -e core2</code>: compiles today, flashes when the boards arrive.</span></li>
+      <li><strong>Art toolkit</strong><span><code>art/lib/toon.py</code> plus one script per pet, run headless in Blender.</span></li>
+      <li><strong>Sound pipeline</strong><span><code>sounds/</code>: fetch, curate, process; 67 clean masters from 30 picks.</span></li>
+      <li><strong>The repo</strong><span>Public on GitHub, with CI, milestones, issues and this stage's pull request.</span></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="ideas-h">
+    <span class="eyebrow">Ideas spotted in the wild</span>
+    <h2 id="ideas-h">Nine ideas living in this code</h2>
+    <p>Each has a real name you can look up. Find it in its habitat, then mark it spotted.</p>
+    <div class="ideas" id="ideas"></div>
+  </section>
+
+  <section class="section" aria-labelledby="trials-h">
+    <span class="eyebrow">Things to try</span>
+    <h2 id="trials-h">Five experiments, five minutes each</h2>
+    <p>Run firmware commands from the <code>firmware/</code> folder. Undo any edits afterwards by running <code>git restore .</code> from the repo root, which puts every tracked file back exactly as committed.</p>
+    <ol class="trials" id="trials"></ol>
+  </section>
+
+  <section class="section" aria-labelledby="gh-h">
+    <span class="eyebrow">GitHub corner · skill 1 of 9</span>
+    <h2 id="gh-h">Commits, and what actually gets published</h2>
+    <div class="corner inked">
+      <dl class="terms">
+        <div><dt>Repository</dt><dd>The project folder plus its full history. Yours lives at <a href="https://github.com/dancohen88/virtual-pets">dancohen88/virtual-pets</a>.</dd></div>
+        <div><dt>Commit</dt><dd>A saved snapshot with a message and an author. Pushing uploads every commit a branch can reach, not just the latest files.</dd></div>
+        <div><dt>Branch</dt><dd>A movable label on a line of commits. Stage 1 lives on <code>stage-1-foundations</code> until the pull request merges it into <code>main</code>.</dd></div>
+        <div><dt><code>.gitignore</code></dt><dd>Files git pretends not to see: <code>docs/private.md</code>, renders, processed sounds, moodboards.</dd></div>
+        <div><dt>Noreply email</dt><dd>Every commit records an email. This repo uses your GitHub noreply address, so your real one never appears.</dd></div>
+        <div><dt>Rewriting history</dt><dd>Changing old commits gives them new IDs. Safe before the first push (we renamed the author that way), disruptive after.</dd></div>
+      </dl>
+      <div class="quiz" id="quiz"></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="book-h">
+    <span class="eyebrow">Sticker book</span>
+    <h2 id="book-h">Stage 1 stickers</h2>
+    <div class="book inked">
+      <p class="progress" id="progress"></p>
+      <div class="stickers" id="stickers"></div>
+      <p class="why">Locked stickers show as grey silhouettes, the same trick the pets' awards book will use. Progress is saved in this browser only.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/dancohen88/virtual-pets/pull/13">Stage 1 pull request (#13)</a>
+    <a href="https://github.com/dancohen88/virtual-pets/milestone/1">Stage 1 milestone</a>
+    <a href="https://github.com/dancohen88/virtual-pets/blob/main/docs/design.md">Design decisions</a>
+    <span>Next stage: the egg.</span>
+  </footer>
+</div>
+
+<script>
+const IDEAS = [
+  { id: "boundary", name: "Hardware abstraction boundary", where: "firmware/lib/petcore/ · Platform.h",
+    marks: "The game core includes no Arduino or M5 headers at all; it only knows interfaces like Display and Motion.",
+    why: "The same game runs in tests, the simulator and on the device. Swap the platform, keep the game." },
+  { id: "fixedstep", name: "Fixed-step simulation", where: "Simulation.cpp · kStepMs = 60 000",
+    marks: "Time is chewed in one-minute bites, with leftover milliseconds carried to the next call.",
+    why: "Three days switched off then caught up equals three days of play, bit for bit (test_catchup proves it)." },
+  { id: "monotonic", name: "Monotonic time", where: "Clock.h · ElapsedTracker",
+    marks: "If the clock jumps backwards, elapsed time is zero, never negative.",
+    why: "A reset real-time clock, or someone winding it back, can't break or cheat the pet." },
+  { id: "asym", name: "Asymmetric decay", where: "Tuning.h · kAwayMultiplier, kSleepMultiplier, kNapMultiplier",
+    marks: "Needs drain at 25% during school, 15% overnight, 30% face-down.",
+    why: "Being at school isn't punished; ignoring the pet while it's around still matters." },
+  { id: "accel", name: "Time acceleration", where: "Clock.h · AcceleratedClock",
+    marks: "The simulator's ] and [ keys step from paused to ×86 400.",
+    why: "A game that takes weeks to play can be tested in minutes." },
+  { id: "cel", name: "Cel shading", where: "art/lib/toon.py",
+    marks: "Light snapped into three flat bands, with shadows shifted in hue, not just darkened.",
+    why: "Reads clearly on a 320×240 screen and compresses well for the device's flash." },
+  { id: "hull", name: "Inverted-hull outline", where: "art/lib/toon.py · blob(outline=…)",
+    marks: "A slightly larger copy of each shape with flipped faces; backface culling hides all but its rim.",
+    why: "Ink outlines from a 3D model without any 2D drawing." },
+  { id: "shapekeys", name: "Shape keys", where: "art/models/*.py · Plump, Smug, BrowRaise, Blink",
+    marks: "One mesh, several stored versions of its vertex positions, blended by a 0–1 slider.",
+    why: "One model gives a normal and a plump pet, and the face expressions, without remodelling." },
+  { id: "ci", name: "Continuous integration", where: ".github/workflows/ci.yml",
+    marks: "Every push starts a fresh Linux machine on GitHub that runs the tests and both builds.",
+    why: "Breakage shows up as a red cross on the pull request, before it reaches a device." },
+];
+
+const TRIALS = [
+  { id: "schoolday", title: "Watch a school day pass",
+    body: "Open the simulator and press ] until the speed reads ×3600, so an hour passes every second. Watch the needs bars: on weekdays they slow right down during school (08:30–15:30) and overnight (21:00–07:00). That's asymmetric decay you can see.",
+    code: "pio run -e sim -t exec" },
+  { id: "breaktest", title: "Break a test on purpose",
+    body: "In lib/petcore/src/petcore/Tuning.h, change kHungerDrainPerHour from 10.0f to 20.0f and run the tests. Which tests notice? A test going red when behaviour changes is the whole point of having them. Change it back afterwards.",
+    code: "pio test -e native" },
+  { id: "backwards", title: "Turn back the clock",
+    body: "Read test_clock_going_backwards_counts_as_no_time in test/test_catchup/test_main.cpp. Predict what the pet's clock does when the real-time clock is reset to five hours earlier, then run just that suite.",
+    code: "pio test -e native -f test_catchup" },
+  { id: "ears", title: "Give the sausage dog longer ears",
+    body: "In art/models/sausage_dog.py, find where the ears are built and make them a little longer. Re-render from the repo root and compare the new image in art/models/renders/sausage_dog/. Every render is a script away.",
+    code: "blender --background --factory-startup --python art/models/sausage_dog.py" },
+  { id: "checks", title: "Read a CI run",
+    body: "Open pull request #13 on GitHub, go to the Checks tab, open a run and expand 'Unit tests (host)'. Those are the same 27 tests, running on GitHub's machine instead of yours." },
+];
+
+const QUIZ = [
+  { id: "q1", text: "You commit docs/private.md by accident and push it. You then delete it in a new commit. Is it gone from GitHub?",
+    opts: ["Yes, the latest version no longer has it", "No, it's still in the history"], right: 1,
+    why: "Pushing uploads every reachable commit, so the old one still contains the file. You'd need to rewrite history and treat the contents as exposed. That's why it's in .gitignore." },
+  { id: "q2", text: "Why doesn't sounds/processed/ appear on GitHub?",
+    opts: ["It's too big to push", "It's in .gitignore because a script regenerates it", "GitHub blocks audio files"], right: 1,
+    why: "Commit sources, not build outputs: curation.json plus process_sounds.py recreate it exactly." },
+  { id: "q3", text: "Pull request #13 showed two CI runs for one push. Why?",
+    opts: ["The workflow runs on both push and pull_request events", "GitHub always runs everything twice", "One run per branch on the Mac"], right: 0,
+    why: "A push to a branch with an open PR fires both triggers. The usual fix: run on push only for main, and on pull_request for everything else." },
+];
+
+const STICKERS = [
+  { id: "den", name: "Den Builder", how: "Open the Stage 1 guide", color: "--caramel", glyph: "house" },
+  { id: "naturalist", name: "Naturalist", how: "Spot all nine ideas", color: "--slate", glyph: "lens" },
+  { id: "experimenter", name: "Experimenter", how: "Tick off all five experiments", color: "--leaf", glyph: "flask" },
+  { id: "ranger", name: "Git Ranger", how: "Answer the GitHub corner right", color: "--slate", glyph: "branch" },
+  { id: "foundations", name: "Stage 1 Complete", how: "Earn the other four", color: "--caramel", glyph: "paw" },
+];
+
+const KEY = "vp-field-guide-stage-1";
+let state = { spotted: {}, trials: {}, quiz: {} };
+try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} renderStickers(); };
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+
+// Ideas
+const ideasEl = document.getElementById("ideas");
+for (const i of IDEAS) {
+  const card = el("article", "idea inked");
+  card.innerHTML = `<h3>${i.name}</h3>
+    <dl><div><dt>Habitat</dt><dd><code>${i.where}</code></dd></div>
+    <div><dt>Field marks</dt><dd>${i.marks}</dd></div>
+    <div><dt>Why it matters</dt><dd>${i.why}</dd></div></dl>`;
+  const btn = el("button", "spot");
+  btn.type = "button";
+  const paint = () => { const on = !!state.spotted[i.id]; btn.setAttribute("aria-pressed", on); btn.textContent = on ? "Spotted ✓" : "Mark spotted"; card.classList.toggle("spotted", on); };
+  btn.addEventListener("click", () => { state.spotted[i.id] = !state.spotted[i.id]; paint(); save(); });
+  paint(); card.appendChild(btn); ideasEl.appendChild(card);
+}
+
+// Experiments
+const trialsEl = document.getElementById("trials");
+for (const t of TRIALS) {
+  const li = el("li", "trial");
+  const id = "trial-" + t.id;
+  li.innerHTML = `<input type="checkbox" id="${id}"><label for="${id}"><strong>${t.title}</strong><span>${t.body}</span>${t.code ? `<pre>${t.code}</pre>` : ""}</label>`;
+  const box = li.querySelector("input");
+  box.checked = !!state.trials[t.id];
+  box.addEventListener("change", () => { state.trials[t.id] = box.checked; save(); });
+  trialsEl.appendChild(li);
+}
+
+// Quiz
+const quizEl = document.getElementById("quiz");
+for (const q of QUIZ) {
+  const fs = el("fieldset", "q");
+  fs.innerHTML = `<legend>${q.text}</legend>`;
+  const opts = el("div", "opts"); const why = el("p", "why");
+  const paint = () => {
+    const pick = state.quiz[q.id];
+    [...opts.children].forEach((b, n) => { b.classList.toggle("right", pick != null && n === q.right); b.classList.toggle("wrong", pick === n && n !== q.right); });
+    why.textContent = pick == null ? "" : (pick === q.right ? "Right. " : "Not quite. ") + q.why;
+  };
+  q.opts.forEach((o, n) => {
+    const b = el("button", "opt"); b.type = "button"; b.textContent = o;
+    b.addEventListener("click", () => { state.quiz[q.id] = n; paint(); save(); });
+    opts.appendChild(b);
+  });
+  fs.append(opts, why); quizEl.appendChild(fs); paint();
+}
+
+// Stickers
+function glyph(kind) {
+  const g = {
+    house: '<path d="M30 58 L52 38 L74 58 V76 H30 Z" /><rect x="46" y="62" width="12" height="14" rx="2" />',
+    lens: '<circle cx="48" cy="50" r="15" /><path d="M59 61 L72 74" stroke-width="7" stroke-linecap="round" />',
+    flask: '<path d="M44 32 H60 M47 32 V48 L34 72 H70 L57 48 V32" stroke-linejoin="round" />',
+    branch: '<circle cx="40" cy="34" r="6" /><circle cx="40" cy="72" r="6" /><circle cx="66" cy="44" r="6" /><path d="M40 40 V66 M40 58 C40 50 66 54 66 50" />',
+    paw: '<ellipse cx="52" cy="62" rx="13" ry="11" /><circle cx="36" cy="46" r="6" /><circle cx="46" cy="38" r="6" /><circle cx="58" cy="38" r="6" /><circle cx="68" cy="46" r="6" />',
+  };
+  return g[kind];
+}
+function earned() {
+  const all = (obj, list) => list.every(x => obj[x.id]);
+  const den = true, naturalist = all(state.spotted, IDEAS), experimenter = all(state.trials, TRIALS);
+  const ranger = QUIZ.every(q => state.quiz[q.id] === q.right);
+  return { den, naturalist, experimenter, ranger, foundations: den && naturalist && experimenter && ranger };
+}
+function renderStickers() {
+  const got = earned(); const box = document.getElementById("stickers"); box.innerHTML = "";
+  let n = 0;
+  for (const s of STICKERS) {
+    const has = got[s.id]; if (has) n++;
+    const d = el("div", "sticker " + (has ? "got" : "locked"));
+    d.innerHTML = `<svg viewBox="0 0 104 104" role="img" aria-label="${s.name} sticker${has ? "" : " (locked)"}">
+      <circle cx="52" cy="52" r="46" fill="var(${s.color})" stroke="var(--ink)" stroke-width="5" />
+      <circle cx="52" cy="52" r="38" fill="none" stroke="var(--card)" stroke-width="3" stroke-dasharray="4 6" />
+      <g fill="var(--card)" stroke="var(--ink)" stroke-width="4">${glyph(s.glyph)}</g></svg>
+      <b>${has ? s.name : "???"}</b><span>${s.how}</span>`;
+    box.appendChild(d);
+  }
+  document.getElementById("progress").textContent = `${n} of ${STICKERS.length} stickers earned · ${Object.values(state.spotted).filter(Boolean).length}/9 ideas spotted · ${Object.values(state.trials).filter(Boolean).length}/5 experiments done`;
+}
+renderStickers();
+</script>
