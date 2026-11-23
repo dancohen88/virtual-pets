@@ -109,7 +109,7 @@ After launch: adults, pets meeting, mini-games, more shop stock.
 - **Public GitHub repo**, created in Stage 1, with a neutral name and README; presentable enough to share.
 - **Personal context stays out of the repo:** committed files refer to "player 1 / player 2", "the sausage dog / the husky". Anything personal lives in the gitignored `docs/private.md`.
 - **Commit sources, not build outputs:** scripts, curation picks, Blender sources committed; anything a script regenerates (processed sounds, renders) gitignored; no Git LFS; finished device asset packs and firmware go on **GitHub Releases**.
-- **Third-party sounds:** only clips whose licence allows redistribution are committed (CC0, public domain, CC BY / BY-SA with credits), listed in [`CREDITS.md`](../CREDITS.md). BigSoundBank clips stay out until their licence is checked; the fetch script + manifest recreate them.
+- **Third-party sounds:** only clips whose licence allows redistribution are committed (CC0, public domain, CC BY / BY-SA, BigSoundBank's licence, checked 2026-11-23), all credited in [`CREDITS.md`](../CREDITS.md). The fetch script + manifest can recreate any that go missing.
 - **Licences:** **MIT** for code; **CC BY-NC 4.0** for original art (pets, homes, stickers); third-party sounds keep their own licences.
 - **A branch + pull request per build stage**; merging closes the stage and links its field guide. Small commits within the branch.
 - **CI from Stage 1:** GitHub Actions runs host-side tests and builds both pets' firmware on every push; a release workflow attaches per-pet firmware.

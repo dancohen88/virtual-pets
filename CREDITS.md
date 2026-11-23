@@ -8,11 +8,9 @@
 | `Barking_of_a_dog.ogg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Barking_of_a_dog.ogg) | Amada44 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `about_Signalers__Body_Size_by_Virtue_of_Their_Growls_pone_0015175_s007.ogg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Dogs%27-Expectation-about-Signalers%27-Body-Size-by-Virtue-of-Their-Growls-pone.0015175.s007.ogg), from Faragó et al., *PLoS ONE* 5(12): e15175 | Faragó T, Pongrácz P, Miklósi Á, Huber L, Virányi Z, Range F | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5/) |
 
+**[BigSoundBank](https://bigsoundbank.com)** by **Joseph Sardin**: 35 clips in `sounds/raw/bigsoundbank/` (named by their BigSoundBank ID), used under the [BigSoundBank licence](https://bigsoundbank.com/licenses.html), which permits redistribution (checked 2026-11-23). Each clip's title, description and source page are listed in [`sounds/raw/manifest.json`](sounds/raw/manifest.json).
+
 **Share-alike note:** processed versions of `Barking_of_a_dog.ogg` (trimmed, loudness-matched, device-format) are adaptations and are therefore also CC BY-SA 3.0.
-
-## Sounds used but not redistributed
-
-Clips from **[BigSoundBank](https://bigsoundbank.com)** (by Joseph Sardin) are used in development but **not committed**: their licence hasn't been verified for redistribution yet. Their IDs, titles and source pages are listed in [`sounds/raw/manifest.json`](sounds/raw/manifest.json), and [`sounds/fetch_sounds.py`](sounds/fetch_sounds.py) re-downloads them. This section will be updated once the licence is confirmed.
 
 ## Tools
 
