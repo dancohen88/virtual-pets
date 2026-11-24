@@ -265,14 +265,16 @@ void App::renderEgg() {
   eggX_ += (targetX - eggX_) * 0.08f;
 
   // Dizzy wobble after a shake, timed in frames so it is visible at any game speed.
+  constexpr int kWobbleFrames = 75;  // ~2.5 s at 30 fps
   if (s.wobbleUntilMs != seenWobbleUntil_) {
     seenWobbleUntil_ = s.wobbleUntilMs;
-    wobbleFrames_ = 60;
+    wobbleFrames_ = kWobbleFrames;
   }
   float angle = eggAngle_;
   if (wobbleFrames_ > 0) {
-    angle += std::sin(static_cast<float>(frame_) * 0.9f) * 14.0f *
-             static_cast<float>(wobbleFrames_) / 60.0f;
+    // Big, slowish, decaying swing so it reads as dizzy (tuned on hardware: 14° looked like a twitch).
+    angle += std::sin(static_cast<float>(frame_) * 0.6f) * 26.0f *
+             static_cast<float>(wobbleFrames_) / static_cast<float>(kWobbleFrames);
     --wobbleFrames_;
   }
 
