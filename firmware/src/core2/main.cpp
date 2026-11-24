@@ -7,6 +7,8 @@
 #include <memory>
 
 #include "../m5/M5Platform.h"
+#include "HardwareTuning.h"
+#include "SelfTest.h"
 #include "petcore/App.h"
 #include "petcore/Life.h"
 #include "petcore/TimeUtil.h"
@@ -70,30 +72,23 @@ class RtcClock : public petcore::Clock {
   int64_t offsetMs_ = 0;
 };
 
-// Gravity, shake and face-down from the accelerometer (in g).
-// Still to confirm on real hardware: which IMU axis is the screen's right/down, and the
-// face-down sign. Flip kSignX / kSignY / the az test if the egg leans the wrong way.
+// Gravity, shake and face-down from the accelerometer (in g). Constants in HardwareTuning.h.
 class ImuMotion : public petcore::Motion {
  public:
   petcore::MotionFrame read() override {
     petcore::MotionFrame m;
     float ax = 0, ay = 0, az = 0;
     if (!M5.Imu.isEnabled() || !M5.Imu.getAccel(&ax, &ay, &az)) return m;
-    constexpr float kSignX = -1.0f, kSignY = -1.0f;  // X confirmed on a Core2 v1.3: +1 leaned the egg the wrong way
-    m.gx = kSignX * ax;
-    m.gy = kSignY * ay;
+    m.gx = hw::kImuSignX * ax;
+    m.gy = hw::kImuSignY * ay;
     m.gz = az;
-    m.faceDown = az < -0.7f;
-    // Shake: the total acceleration strays well away from 1 g. A short cooldown stops
-    // one shake registering as several. 0.45 g tuned on a Core2 v1.3: a firm, ordinary
-    // shake triggers it; picking it up or tilting stays under ~0.3 g. (1 g needed a hard shake.)
-    constexpr float kShakeG = 0.45f;
+    m.faceDown = az < hw::kFaceDownZ;
     const float mag = std::sqrt(ax * ax + ay * ay + az * az);
     if (cooldown_ > 0) {
       --cooldown_;
-    } else if (std::fabs(mag - 1.0f) > kShakeG) {
+    } else if (std::fabs(mag - 1.0f) > hw::kShakeG) {
       m.shake = true;
-      cooldown_ = 15;  // ~0.5 s at 30 fps
+      cooldown_ = hw::kShakeCooldownFrames;
     }
     return m;
   }
@@ -110,6 +105,7 @@ ImuMotion motion;
 std::unique_ptr<petcore::AcceleratedClock> gameClock;
 std::unique_ptr<petcore::Life> life;
 std::unique_ptr<petcore::App> app;
+selftest::SecretKnock selfTestKnock;
 
 }  // namespace
 
@@ -123,6 +119,7 @@ void setup() {
 }
 
 void loop() {
-  app->tick();
+  app->tick();                                   // polls input, which calls M5.update()
+  if (selfTestKnock.update()) selftest::run();  // tap A, C, A, C within 3 s; never returns
   M5.delay(33);
 }

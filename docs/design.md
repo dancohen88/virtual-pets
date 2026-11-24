@@ -17,6 +17,7 @@ _Last updated: 2026-11-23_
 - **C++ / Arduino framework / PlatformIO / M5Unified** (M5GFX for graphics).
 - **Desktop simulator first:** M5GFX renders to an SDL2 window via a PlatformIO `native` env (proven by M5Stack's `lv_m5_emulator`). On Apple Silicon: Homebrew `sdl2` + `pkg-config`, arm64 build flag, `/opt/homebrew` include/lib paths.
 - **Hardware abstraction boundary:** game logic never calls M5 APIs directly; it goes through small `Input` / `Display` / `Sound` / `Motion` interfaces with simulator and device implementations.
+- **Touch limits (found on hardware):** the Core2's virtual buttons A/B/C register **one touch at a time** (holding two together only ever reports one), and the capacitive panel **calibrates at power-on** (fingers already on it become its baseline). So nothing may depend on simultaneous touches or on holding at boot; hidden gestures are single-tap sequences (the hardware self-test is the knock A, C, A, C within 3 s).
 - To verify on first flash: M5Unified's IMU auto-detect with v1.3's BMI270 (README only names Core2 / Core2 v1.1). Don't stack v1.3 on M5 "Base" bottoms (vibration motor interferes).
 
 ### Devices & pets
@@ -69,7 +70,7 @@ _Last updated: 2026-11-23_
 - **Away detection:** a **parent-set schedule** (school hours, bedtime) **plus face-down = nap** (gyro).
 - **Device mostly in timer sleep**, woken by the RTC alarm; the pet may **alert** (chirp/buzz) only within the schedule.
 - **Alert frequency:** between "rare" and "persistent", **adjustable**.
-- **Parent menu** on-device (hidden gesture + PIN): weekday/weekend profiles, holiday switch.
+- **Parent menu** on-device (hidden single-tap sequence + PIN; see touch limits): weekday/weekend profiles, holiday switch.
 - **Clock:** NTP sync over home Wi-Fi from the parent menu, manual fallback; logic uses **monotonic time** (clock going backwards = zero elapsed).
 
 ### Sound
