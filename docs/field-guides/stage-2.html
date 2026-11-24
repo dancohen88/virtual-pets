@@ -1,0 +1,409 @@
+<title>Stage 2 Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field notebook on grid paper; specimen cards are drawn like the pets,
+   with a thick ink outline and a flat offset shadow (the cel-shaded look). */
+:root {
+  --paper: #eaf1f5;      /* husky-ice grid paper */
+  --grid: #d3e0e8;
+  --card: #fbfdfe;
+  --ink: #3b2518;        /* cocoa outline, same family as the pets' ink */
+  --muted: #5f5249;
+  --caramel: #c9732f;    /* sausage dog */
+  --slate: #4f6688;      /* husky */
+  --leaf: #3f7d4e;       /* spotted / done */
+  --shade: #cbd8e1;      /* flat cel shadow */
+  --f-display: "Fredoka", "Avenir Next Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+    --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+  --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font: 17px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+.page { max-width: 980px; margin: 0 auto; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+h3 { font-size: 1.25rem; }
+p { margin: 0; max-width: 65ch; }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+code { background: var(--grid); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+a { color: var(--slate); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible + label { outline: 3px solid var(--caramel); outline-offset: 3px; }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.section { display: grid; gap: 20px; }
+.lede { color: var(--muted); font-size: 1.08rem; }
+
+/* Ink-outlined object: the one bold device on the page. */
+.inked { background: var(--card); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 6px 6px 0 var(--shade); }
+
+/* Hero */
+.hero { display: grid; gap: 18px; }
+.specimens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.specimen { padding: 14px 16px 16px; display: grid; gap: 6px; }
+.specimen img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; image-rendering: auto; }
+.tag { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.tag.saus { color: var(--caramel); } .tag.husk { color: var(--slate); }
+.specimen p { font-size: 0.95rem; color: var(--muted); }
+.strip { padding: 12px 14px 14px; display: grid; gap: 8px; margin: 0; }
+.strip img { width: 100%; height: auto; aspect-ratio: 8 / 3; object-fit: contain; border-radius: 10px; }
+.strip figcaption { font-size: 0.92rem; color: var(--muted); }
+.tally { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--f-mono); font-size: 0.88rem; color: var(--muted); }
+.tally b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.note { border-left: 4px solid var(--slate); background: var(--card); border-radius: 0 12px 12px 0; padding: 12px 16px; font-size: 0.97rem; max-width: none; }
+
+/* Habitat map */
+.map { padding: 18px; overflow-x: auto; }
+.parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 24px; list-style: none; padding: 0; margin: 0; }
+.parts li { display: grid; gap: 2px; min-width: 0; }
+.parts li strong { font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; }
+.parts li span { color: var(--muted); font-size: 0.95rem; }
+
+/* Ideas */
+.ideas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.idea { padding: 16px 18px; display: grid; gap: 10px; align-content: start; transition: transform 0.15s ease; }
+.idea.spotted { border-color: var(--leaf); }
+.idea dl { margin: 0; display: grid; gap: 6px; font-size: 0.95rem; }
+.idea dt { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.idea dd { margin: 0; min-width: 0; }
+.spot { justify-self: start; font: 600 0.9rem var(--f-display); color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 999px; padding: 4px 14px; cursor: pointer; }
+.spot[aria-pressed="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--card); }
+
+/* Experiments */
+.trials { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.trial { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-left: 4px solid var(--caramel); background: var(--card); border-radius: 0 12px 12px 0; }
+.trial input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--leaf); }
+.trial label { display: grid; gap: 4px; cursor: pointer; }
+.trial label strong { font-family: var(--f-display); font-weight: 500; font-size: 1.08rem; }
+.trial pre { margin: 4px 0 0; padding: 8px 10px; background: var(--grid); border-radius: 8px; overflow-x: auto; font: 0.85rem/1.5 var(--f-mono); }
+
+/* GitHub corner */
+.corner { padding: 20px 22px; display: grid; gap: 16px; }
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 24px; margin: 0; }
+.terms div { min-width: 0; }
+.terms dt { font-family: var(--f-display); font-weight: 600; }
+.terms dd { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.quiz { display: grid; gap: 18px; }
+.q { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; }
+.q legend { font-weight: 700; padding: 0; margin-bottom: 4px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 0.95rem var(--f-body); color: var(--ink); background: var(--paper); border: 2px solid var(--grid); border-radius: 10px; padding: 6px 12px; cursor: pointer; text-align: left; }
+.opt.right { border-color: var(--leaf); background: color-mix(in srgb, var(--leaf) 16%, var(--card)); }
+.opt.wrong { border-color: var(--caramel); }
+.why { font-size: 0.93rem; color: var(--muted); }
+
+/* Sticker book */
+.book { padding: 20px; display: grid; gap: 16px; }
+.stickers { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; }
+.sticker { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.sticker svg { width: 104px; height: 104px; transition: transform 0.25s ease, filter 0.25s ease; }
+.sticker.locked svg { filter: grayscale(1) opacity(0.35); }
+.sticker.got svg { transform: rotate(-4deg); }
+.sticker b { font-family: var(--f-display); font-weight: 600; }
+.sticker span { font-size: 0.85rem; color: var(--muted); }
+.progress { font-family: var(--f-mono); font-size: 0.9rem; color: var(--muted); }
+
+footer { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.95rem; color: var(--muted); }
+
+@media (max-width: 560px) {
+  .specimens { grid-template-columns: 1fr; }
+  body { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">Virtual Pets · Field guide · Stage 2 of 9</span>
+    <h1>Egg &amp; hatch: keep it warm, keep it upright, be there when it cracks</h1>
+    <p class="lede">Each pet now starts life as an egg. It cools unless you stroke it, falls over if you tip the device too far, cracks after eight warm hours, and hatches the next day only while someone is handling it. Spot the ideas, run the experiments and collect the stickers.</p>
+    <div class="specimens">
+      <figure class="specimen inked" style="margin:0">
+        <img src="img/egg-sausage-dog.png" alt="Cel-shaded caramel egg with cocoa ear-shaped patches, spots and a small tail-curl bump" width="320" height="240">
+        <span class="tag saus">Specimen A · the sausage dog's egg</span>
+        <p>Field marks: caramel shell, drooping cocoa ear patches, spots, a tail curl on the side. About 112 px tall on the device.</p>
+      </figure>
+      <figure class="specimen inked" style="margin:0">
+        <img src="img/egg-husky.png" alt="Cel-shaded egg with a grey husky-mask cap, soft pointed ear bumps and a white lower half" width="320" height="240">
+        <span class="tag husk">Specimen B · the husky's egg</span>
+        <p>Field marks: grey cap with a V-shaped peak, soft pointed ear bumps, white base, a tail curl. Reads as an egg wearing a husky hood.</p>
+      </figure>
+    </div>
+    <figure class="strip inked">
+      <img src="img/egg-husky-sequence.png" alt="Husky egg in eight frames: whole, three increasing crack stages, then four hatch poses: squash, lid pops, pup peeks out, shell worn as a hat" width="1280" height="480">
+      <figcaption>The husky egg's full run. Top: crack stages 0 to 3. Bottom: the four hatch poses (squash, lid pops, peek, shell as a hat).</figcaption>
+    </figure>
+    <p class="note">The egg you see in the simulator is still drawn in code from basic shapes, a stand-in so the rules have something to show. Stage 3 replaces it with these Blender sprites.</p>
+    <div class="tally" aria-label="Stage 2 in numbers">
+      <span><b>49</b> host tests (<b>22</b> new)</span>
+      <span><b>8.1%</b> of device flash used</span>
+      <span><b>4</b> crack stages</span>
+      <span><b>4</b> hatch poses</span>
+      <span><b>8 h</b> warm time to crack</span>
+      <span><b>15</b> attention minutes to hatch</span>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="map-h">
+    <span class="eyebrow">Habitat map</span>
+    <h2 id="map-h">How an egg becomes a pet</h2>
+    <p><code>Life</code> owns one timeline: egg, a short hatching moment, then the baby. The egg steps every second; once the baby exists, the Stage 1 needs simulation takes over with its one-minute steps and any leftover time.</p>
+    <div class="map inked">
+<pre class="mermaid">
+flowchart TD
+  subgraph egg["Egg · steps every 1 s"]
+    W["Warmth 0-100<br/>starts at 80 · drains 12/h<br/>+2 per stroke · ×2 when toppled"]
+    B["Balance<br/>lean from gravity<br/>topples past 30° · rights at 15° back or a tap"]
+    I["Incubation<br/>counts while warmth ≥ 50"]
+    W --> I
+    B -. toppled cools faster .-> W
+  end
+  I -->|"8 h warm time"| C1["First crack"]
+  C1 --> HD["Hatch day opens<br/>first wake time after the crack<br/>(05:30 crack → 07:00 the same morning)"]
+  HD --> A["Attention minutes<br/>egg handled in the last 10 s, screen on"]
+  A -->|"5 min"| C2["Second crack"]
+  A -->|"10 min"| C3["Third crack"]
+  A -->|"15 min"| H["Hatching · 5 s"]
+  H --> Baby["Baby<br/>Stage 1 needs simulation"]
+</pre>
+    </div>
+    <ul class="parts">
+      <li><strong>Egg</strong><span><code>Egg.h/.cpp</code>: warmth, balance, incubation, attention, in phases <code>Incubating → Cracked → HatchDay → Hatched</code>.</span></li>
+      <li><strong>Life</strong><span><code>Life.h/.cpp</code>: <code>LifeStage::Egg → Hatching → Baby</code> on one clock.</span></li>
+      <li><strong>Motion</strong><span><code>Platform.h</code>: a gravity vector, shake and face-down from the accelerometer, plus <code>leanDegrees()</code>.</span></li>
+      <li><strong>Schedule</strong><span><code>nextWakeAfter()</code> finds when hatch day opens.</span></li>
+      <li><strong>Egg art</strong><span><code>art/lib/egg.py</code> plus one script per pet: stages 0–3 and four hatch poses.</span></li>
+      <li><strong>Tests</strong><span><code>test_egg</code> (10) and <code>test_hatch</code> (12), all in <code>firmware/test/</code>.</span></li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="ideas-h">
+    <span class="eyebrow">Ideas spotted in the wild</span>
+    <h2 id="ideas-h">Nine ideas living in this code</h2>
+    <p>Each has a real name you can look up. Find it in its habitat, then mark it spotted.</p>
+    <div class="ideas" id="ideas"></div>
+  </section>
+
+  <section class="section" aria-labelledby="trials-h">
+    <span class="eyebrow">Things to try</span>
+    <h2 id="trials-h">Five experiments, five minutes each</h2>
+    <p>Run firmware commands from the <code>firmware/</code> folder. Undo any edits afterwards by running <code>git restore .</code> from the repo root, which puts every tracked file back exactly as committed.</p>
+    <ol class="trials" id="trials"></ol>
+  </section>
+
+  <section class="section" aria-labelledby="gh-h">
+    <span class="eyebrow">GitHub corner · skill 2 of 9</span>
+    <h2 id="gh-h">Reviewing a pull request</h2>
+    <div class="corner inked">
+      <p>A pull request is a proposal: "merge these commits into <code>main</code>". Reviewing it means reading the change and saying yes, no or not yet. Worked example: <a href="https://github.com/dancohen88/virtual-pets/pull/14">PR #14, Stage 2</a>.</p>
+      <dl class="terms">
+        <div><dt>Draft vs ready</dt><dd>A draft PR says "work in progress, don't merge". <b>Ready for review</b> flips it, and only then does GitHub offer the merge button.</dd></div>
+        <div><dt>Files changed</dt><dd>The diff: every line added (green) or removed (red), file by file. This is where a review happens.</dd></div>
+        <div><dt>Line comments</dt><dd>Hover a line in Files changed and click the blue <b>+</b> to comment on exactly that line. Comments pile up as a pending review.</dd></div>
+        <div><dt>Submitting a review</dt><dd><b>Comment</b> (feedback, no verdict), <b>Approve</b> (good to merge) or <b>Request changes</b> (fix first). On your own PR, GitHub only lets you comment.</dd></div>
+        <div><dt>Checks</dt><dd>CI runs on every PR. A green tick means the tests and both builds passed on GitHub's machine; a red cross blocks confidence, not the button.</dd></div>
+        <div><dt>Closes #N</dt><dd>Write "Closes #3" in a commit message or the PR description, and merging closes issue #3 automatically.</dd></div>
+        <div><dt>Merge choices</dt><dd><b>Create a merge commit</b> keeps every commit and records the join (what we use per stage). <b>Squash</b> folds them into one. <b>Rebase</b> replays them without a merge commit.</dd></div>
+      </dl>
+      <div class="quiz" id="quiz"></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="book-h">
+    <span class="eyebrow">Sticker book</span>
+    <h2 id="book-h">Stage 2 stickers</h2>
+    <div class="book inked">
+      <p class="progress" id="progress"></p>
+      <div class="stickers" id="stickers"></div>
+      <p class="why">Locked stickers show as grey silhouettes, the same trick the pets' awards book will use. Progress is saved in this browser only.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/dancohen88/virtual-pets/pull/14">Stage 2 pull request (#14)</a>
+    <a href="https://github.com/dancohen88/virtual-pets/milestone/2">Stage 2 milestone</a>
+    <a href="https://github.com/dancohen88/virtual-pets/blob/main/docs/design.md">Design decisions</a>
+    <a href="https://claude.ai/artifact/T87DaxLKbAUWinNUxRUBFS">Stage 1 field guide</a>
+    <span>Next stage: sprites.</span>
+  </footer>
+</div>
+
+<script>
+const IDEAS = [
+  { id: "statemachine", name: "State machine", where: "Life.h · LifeStage, Egg.h · EggPhase",
+    marks: "A fixed set of named states with defined moves between them: Egg → Hatching → Baby, and Incubating → Cracked → HatchDay → Hatched.",
+    why: "The pet can only be in one state at a time, so each screen and rule knows exactly what applies." },
+  { id: "hysteresis", name: "Hysteresis", where: "Tuning.h · kEggToppleDeg = 30, kEggRightingDeg = 15",
+    marks: "Falling over and standing up use different thresholds: past 30° it topples, but it only rolls back after 15° the other way.",
+    why: "Without the gap, a device held near 30° would make the egg flicker between standing and fallen." },
+  { id: "gravity", name: "Gravity vector", where: "Platform.h · leanDegrees()",
+    marks: "The accelerometer reports which way down is. Lean = asin(gx / |g|), the angle of gravity away from the screen's vertical plane.",
+    why: "Works the same held upright or lying flat, so tilting the device always tilts the egg." },
+  { id: "finestep", name: "Finer fixed step", where: "Tuning.h · kEggStepMs = 1000 vs kStepMs = 60 000",
+    marks: "The egg steps every second; the baby's needs step every minute. Both still use fixed steps.",
+    why: "A crack or hatch lands within a second of being earned, while catch-up stays split-invariant (test_incubation_catch_up_is_split_invariant)." },
+  { id: "diegetic", name: "Diegetic UI", where: "App.cpp · the egg screen",
+    marks: "Temperature shows on the egg itself: frost when cold, a rosy glow and heartbeat when warm, plus a small thermometer.",
+    why: "Information that lives inside the game world reads faster than a number, especially for a player glancing at a pet." },
+  { id: "engagement", name: "Engagement window", where: "Egg.h · attentionSince_, attentionUntil_ · kAttentionWindowMs = 10 s",
+    marks: "Each touch, stroke or 5° tilt extends attention to 10 s ahead. An idle screen earns nothing.",
+    why: "Counts time spent caring, not time the screen is on, so the hatch always happens while someone is there." },
+  { id: "frametime", name: "Game time vs frame time", where: "App.cpp · kHatchFrames = 90, wobble 60 frames, heartbeat every 36 frames",
+    marks: "The rules run on game time; the little animations count frames (~3 s hatch, 2 s wobble, 1.2 s heartbeat at 30 fps).",
+    why: "At ×3600 the rules fly, but you still see the wobble and the hatch play at normal speed." },
+  { id: "seam", name: "Splitting a mesh along a seam", where: "art/lib/egg.py · shell(), seam(), stroke()",
+    marks: "One jagged crack line splits the shell into lid and base, and the ink crack strokes are drawn along the same line.",
+    why: "The hatch opens exactly where stages 1 to 3 showed the cracks, so the sequence reads as one event." },
+  { id: "anticipation", name: "Anticipation and squash", where: "art/lib/egg.py · pose(squash=…)",
+    marks: "Before the lid pops, the egg squashes down and widens: a wind-up before the big move. Four key poses, no in-betweens.",
+    why: "Limited animation with strong poses gives character for very few frames, which matters for flash space." },
+];
+
+const TRIALS = [
+  { id: "incubate", title: "Incubate an egg at ×3600",
+    body: "Open the simulator and press ] until the speed reads ×3600. Drag across the egg to stroke it and keep the thermometer up. After 8 warm hours (about 8 seconds) the first crack appears. Press J to jump past 07:00, then keep stroking and tilting (A / D) until it hatches.",
+    code: "pio run -e sim -t exec" },
+  { id: "topple", title: "Tip it over and feel the chill",
+    body: "Press D four times (10° each, so 40°) and the egg falls past 30°. Watch the thermometer drop faster than when it was standing: a toppled egg cools twice as fast (kEggToppledCoolingFactor = 2.0). Press A until it rolls back, or S to level and click it. X makes it wobble without harm." },
+  { id: "tune", title: "Move the tipping point",
+    body: "In lib/petcore/src/petcore/Tuning.h, change kEggToppleDeg from 30.0f to 45.0f and run the egg tests. Which ones notice? Look for test_egg_leans_but_only_topples_past_the_threshold. Change it back afterwards.",
+    code: "pio test -e native -f test_egg" },
+  { id: "hatchsuite", title: "Run just the hatch tests",
+    body: "Run only the 12 hatch tests and read their names: they are the rules in plain English, from test_a_cold_egg_never_cracks to test_cracks_at_five_and_ten_minutes_then_hatches_at_fifteen.",
+    code: "pio test -e native -f test_hatch" },
+  { id: "rerender", title: "Re-render an egg with a tweak",
+    body: "Open art/models/egg_husky.py, change a colour or a patch size, and re-render from the repo root. Compare the sheet in art/models/renders/egg_husky/. Every frame updates from the one script.",
+    code: "blender --background --factory-startup --python art/models/egg_husky.py" },
+];
+
+const QUIZ = [
+  { id: "q1", text: "PR #14 opened as a draft. What does that change?",
+    opts: ["Nothing, it's just a label", "GitHub won't offer the merge button until it's marked ready for review", "CI doesn't run on drafts"], right: 1,
+    why: "Drafts still run CI and can be commented on, but can't be merged until someone clicks 'Ready for review'." },
+  { id: "q2", text: "You want to point at one suspicious line in Egg.cpp. Where do you do it?",
+    opts: ["In the Conversation tab", "In Files changed, using the + next to that line", "In a new issue"], right: 1,
+    why: "Line comments in Files changed are tied to the exact line and show up in context for whoever reads the review." },
+  { id: "q3", text: "Why do our stage PRs use 'Create a merge commit' rather than 'Squash'?",
+    opts: ["It keeps every commit of the stage and records where it joined main", "It's faster", "Squash deletes the branch"], right: 0,
+    why: "A merge commit has two parents, so the history shows each stage as a side branch joining main, with all its commits intact." },
+];
+
+const STICKERS = [
+  { id: "incubator", name: "Incubator", how: "Open the Stage 2 guide", color: "--caramel", glyph: "egg" },
+  { id: "spotter", name: "Egg Spotter", how: "Spot all nine ideas", color: "--slate", glyph: "cracked" },
+  { id: "tinkerer", name: "Tinkerer", how: "Tick off all five experiments", color: "--leaf", glyph: "thermo" },
+  { id: "reviewer", name: "PR Reviewer", how: "Answer the GitHub corner right", color: "--slate", glyph: "diff" },
+  { id: "complete", name: "Stage 2 Complete", how: "Earn the other four", color: "--caramel", glyph: "paw" },
+];
+
+const KEY = "vp-field-guide-stage-2";
+let state = { spotted: {}, trials: {}, quiz: {} };
+try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} renderStickers(); };
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+
+// Ideas
+const ideasEl = document.getElementById("ideas");
+for (const i of IDEAS) {
+  const card = el("article", "idea inked");
+  card.innerHTML = `<h3>${i.name}</h3>
+    <dl><div><dt>Habitat</dt><dd><code>${i.where}</code></dd></div>
+    <div><dt>Field marks</dt><dd>${i.marks}</dd></div>
+    <div><dt>Why it matters</dt><dd>${i.why}</dd></div></dl>`;
+  const btn = el("button", "spot");
+  btn.type = "button";
+  const paint = () => { const on = !!state.spotted[i.id]; btn.setAttribute("aria-pressed", on); btn.textContent = on ? "Spotted ✓" : "Mark spotted"; card.classList.toggle("spotted", on); };
+  btn.addEventListener("click", () => { state.spotted[i.id] = !state.spotted[i.id]; paint(); save(); });
+  paint(); card.appendChild(btn); ideasEl.appendChild(card);
+}
+
+// Experiments
+const trialsEl = document.getElementById("trials");
+for (const t of TRIALS) {
+  const li = el("li", "trial");
+  const id = "trial-" + t.id;
+  li.innerHTML = `<input type="checkbox" id="${id}"><label for="${id}"><strong>${t.title}</strong><span>${t.body}</span>${t.code ? `<pre>${t.code}</pre>` : ""}</label>`;
+  const box = li.querySelector("input");
+  box.checked = !!state.trials[t.id];
+  box.addEventListener("change", () => { state.trials[t.id] = box.checked; save(); });
+  trialsEl.appendChild(li);
+}
+
+// Quiz
+const quizEl = document.getElementById("quiz");
+for (const q of QUIZ) {
+  const fs = el("fieldset", "q");
+  fs.innerHTML = `<legend>${q.text}</legend>`;
+  const opts = el("div", "opts"); const why = el("p", "why");
+  const paint = () => {
+    const pick = state.quiz[q.id];
+    [...opts.children].forEach((b, n) => { b.classList.toggle("right", pick != null && n === q.right); b.classList.toggle("wrong", pick === n && n !== q.right); });
+    why.textContent = pick == null ? "" : (pick === q.right ? "Right. " : "Not quite. ") + q.why;
+  };
+  q.opts.forEach((o, n) => {
+    const b = el("button", "opt"); b.type = "button"; b.textContent = o;
+    b.addEventListener("click", () => { state.quiz[q.id] = n; paint(); save(); });
+    opts.appendChild(b);
+  });
+  fs.append(opts, why); quizEl.appendChild(fs); paint();
+}
+
+// Stickers
+function glyph(kind) {
+  const g = {
+    egg: '<ellipse cx="52" cy="56" rx="17" ry="22" />',
+    cracked: '<ellipse cx="52" cy="56" rx="17" ry="22" /><path d="M36 52 L43 47 L48 54 L54 46 L60 53 L68 49" fill="none" />',
+    thermo: '<rect x="46" y="28" width="12" height="36" rx="6" /><circle cx="52" cy="70" r="10" />',
+    diff: '<rect x="30" y="32" width="34" height="38" rx="4" /><path d="M36 42 H52 M36 50 H58 M36 58 H48" fill="none" /><circle cx="64" cy="64" r="10" /><path d="M71 71 L78 78" stroke-linecap="round" fill="none" />',
+    paw: '<ellipse cx="52" cy="62" rx="13" ry="11" /><circle cx="36" cy="46" r="6" /><circle cx="46" cy="38" r="6" /><circle cx="58" cy="38" r="6" /><circle cx="68" cy="46" r="6" />',
+  };
+  return g[kind];
+}
+function earned() {
+  const all = (obj, list) => list.every(x => obj[x.id]);
+  const incubator = true, spotter = all(state.spotted, IDEAS), tinkerer = all(state.trials, TRIALS);
+  const reviewer = QUIZ.every(q => state.quiz[q.id] === q.right);
+  return { incubator, spotter, tinkerer, reviewer, complete: incubator && spotter && tinkerer && reviewer };
+}
+function renderStickers() {
+  const got = earned(); const box = document.getElementById("stickers"); box.innerHTML = "";
+  let n = 0;
+  for (const s of STICKERS) {
+    const has = got[s.id]; if (has) n++;
+    const d = el("div", "sticker " + (has ? "got" : "locked"));
+    d.innerHTML = `<svg viewBox="0 0 104 104" role="img" aria-label="${s.name} sticker${has ? "" : " (locked)"}">
+      <circle cx="52" cy="52" r="46" fill="var(${s.color})" stroke="var(--ink)" stroke-width="5" />
+      <circle cx="52" cy="52" r="38" fill="none" stroke="var(--card)" stroke-width="3" stroke-dasharray="4 6" />
+      <g fill="var(--card)" stroke="var(--ink)" stroke-width="4">${glyph(s.glyph)}</g></svg>
+      <b>${has ? s.name : "???"}</b><span>${s.how}</span>`;
+    box.appendChild(d);
+  }
+  document.getElementById("progress").textContent = `${n} of ${STICKERS.length} stickers earned · ${Object.values(state.spotted).filter(Boolean).length}/9 ideas spotted · ${Object.values(state.trials).filter(Boolean).length}/5 experiments done`;
+}
+renderStickers();
+</script>

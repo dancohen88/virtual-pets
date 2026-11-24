@@ -41,4 +41,31 @@ constexpr float kPlumpnessLossPerHour = 0.005f;
 // the same result as 3 days of continuous play (deterministic fixed-step simulation).
 constexpr int64_t kStepMs = 60 * 1000;
 
+// --- Egg (Stage 2) ---
+// Warmth is 0..100 like the needs. It drains with the same asymmetric multipliers
+// (school, night, face-down), so being away doesn't freeze the egg.
+constexpr float kEggWarmthStart = 80.0f;          // a new egg starts comfortably warm
+constexpr float kEggWarmthDecayPerHour = 12.0f;   // with the owner around: 80 -> 50 in 2.5 h
+constexpr float kEggToppledCoolingFactor = 2.0f;  // lying on its side it cools twice as fast
+constexpr float kEggStrokeWarmth = 2.0f;          // per stroke event (~5 a second while rubbing)
+constexpr float kEggWarmThreshold = 50.0f;        // incubation only counts while this warm
+constexpr int64_t kEggWarmMsToCrack = 8LL * 60 * 60 * 1000;  // 8 h of warm time -> first crack
+// The egg steps once a second (not once a minute like the pet), so a crack or the hatch
+// lands while someone is still there to see it.
+constexpr int64_t kEggStepMs = 1000;
+
+// Balance. Lean is the angle of gravity away from the screen's vertical axis.
+constexpr float kEggToppleDeg = 30.0f;      // lean further than this and it falls over
+constexpr float kEggRightingDeg = 15.0f;    // tilt this far the other way and it rolls back up
+constexpr float kEggHandledTiltDeg = 5.0f;  // a tilt change this big counts as handling it
+constexpr int64_t kShakeWobbleMs = 2000;    // a shake makes it wobble dizzily, nothing more
+
+// Hatch day: attention minutes = time with the screen on and the egg touched in the last
+// kAttentionWindowMs. Cracks at 5 and 10, hatch at 15, so it hatches in front of the player.
+constexpr int64_t kAttentionWindowMs = 10 * 1000;
+constexpr int64_t kAttentionSecondCrackMs = 5LL * 60 * 1000;
+constexpr int64_t kAttentionThirdCrackMs = 10LL * 60 * 1000;
+constexpr int64_t kAttentionHatchMs = 15LL * 60 * 1000;
+constexpr int64_t kHatchingMs = 5000;  // the hatching moment, before the baby's needs start
+
 }  // namespace petcore::tuning

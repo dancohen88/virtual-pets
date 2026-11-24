@@ -24,4 +24,14 @@ Activity Schedule::activityAt(int64_t localMs) const {
   return Activity::Around;
 }
 
+int64_t Schedule::nextWakeAfter(int64_t localMs) const {
+  const int64_t dayStart = localMs - static_cast<int64_t>(timeutil::minuteOfDay(localMs)) *
+                                         timeutil::kMsPerMinute -
+                           localMs % timeutil::kMsPerMinute;
+  const int wd = timeutil::weekday(localMs);
+  const int64_t todayWake = dayStart + profileFor(wd).wakeMin * timeutil::kMsPerMinute;
+  if (todayWake > localMs) return todayWake;
+  return dayStart + timeutil::kMsPerDay + profileFor((wd + 1) % 7).wakeMin * timeutil::kMsPerMinute;
+}
+
 }  // namespace petcore

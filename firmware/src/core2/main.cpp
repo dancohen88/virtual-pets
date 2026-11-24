@@ -3,10 +3,12 @@
 #include <M5Unified.h>
 #include <esp_timer.h>
 
+#include <cmath>
 #include <memory>
 
 #include "../m5/M5Platform.h"
 #include "petcore/App.h"
+#include "petcore/Life.h"
 #include "petcore/TimeUtil.h"
 
 namespace {
@@ -31,14 +33,34 @@ class RtcClock : public petcore::Clock {
   int64_t offsetMs_ = 0;
 };
 
-// Face-down from the accelerometer. The axis sign still needs checking on real hardware.
+// Gravity, shake and face-down from the accelerometer (in g).
+// Still to confirm on real hardware: which IMU axis is the screen's right/down, and the
+// face-down sign. Flip kSignX / kSignY / the az test if the egg leans the wrong way.
 class ImuMotion : public petcore::Motion {
  public:
-  bool faceDown() override {
+  petcore::MotionFrame read() override {
+    petcore::MotionFrame m;
     float ax = 0, ay = 0, az = 0;
-    if (!M5.Imu.isEnabled() || !M5.Imu.getAccel(&ax, &ay, &az)) return false;
-    return az < -0.7f;
+    if (!M5.Imu.isEnabled() || !M5.Imu.getAccel(&ax, &ay, &az)) return m;
+    constexpr float kSignX = 1.0f, kSignY = -1.0f;
+    m.gx = kSignX * ax;
+    m.gy = kSignY * ay;
+    m.gz = az;
+    m.faceDown = az < -0.7f;
+    // Shake: the total acceleration strays well away from 1 g. A short cooldown stops
+    // one shake registering as several.
+    const float mag = std::sqrt(ax * ax + ay * ay + az * az);
+    if (cooldown_ > 0) {
+      --cooldown_;
+    } else if (std::fabs(mag - 1.0f) > 1.0f) {
+      m.shake = true;
+      cooldown_ = 15;  // ~0.5 s at 30 fps
+    }
+    return m;
   }
+
+ private:
+  int cooldown_ = 0;
 };
 
 RtcClock rtcClock;
@@ -47,7 +69,7 @@ M5Input input;
 M5Sound sound;
 ImuMotion motion;
 std::unique_ptr<petcore::AcceleratedClock> gameClock;
-std::unique_ptr<petcore::Simulation> sim;
+std::unique_ptr<petcore::Life> life;
 std::unique_ptr<petcore::App> app;
 
 }  // namespace
@@ -57,8 +79,8 @@ void setup() {
   rtcClock.begin();
   display.begin();
   gameClock = std::make_unique<petcore::AcceleratedClock>(rtcClock);  // runs at x1 on the device
-  sim = std::make_unique<petcore::Simulation>(petcore::Schedule{}, gameClock->nowMs());
-  app = std::make_unique<petcore::App>(*sim, *gameClock, display, input, motion, sound);
+  life = std::make_unique<petcore::Life>(petcore::Schedule{}, gameClock->nowMs());
+  app = std::make_unique<petcore::App>(*life, *gameClock, display, input, motion, sound);
 }
 
 void loop() {

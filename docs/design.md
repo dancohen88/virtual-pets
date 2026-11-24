@@ -52,9 +52,16 @@ _Last updated: 2026-11-23_
   - **Prices:** treats cheap (a day's care buys a few, used up); toys a few days (permanent); skins about a week of good care (permanent, the big goal).
 - **Awards book:** **stickers** from toy play milestones (first squeak, 50 squeaks, won tug-of-war), care firsts and streaks (first bath, a week of breakfasts) and funny moments (caught 20 treats in a row, got plump, shook dry right next to you). ~24 at launch; some **secret** (silhouette until earned). A **completed page unlocks an exclusive item** you can't buy.
 - **Ignoring an alert costs nothing extra**; needs just keep draining.
-- **Egg care:** the egg must be kept **stable** and **stroked to keep it warm**. Its "down" follows real gravity (IMU): tilt and it leans; past ~30° it topples and rolls to the edge; tap or tilt to roll it upright. Toppled = cools twice as fast; never damaged.
+- **Egg care:** the egg must be kept **stable** and **stroked to keep it warm**. Its "down" follows real gravity (IMU): tilt and it leans; past ~30° it topples and rolls to the edge; tap or tilt to roll it upright. Toppled = cools twice as fast; never damaged. Shaking it = a dizzy wobble, purely cosmetic.
 - **Egg temperature** is shown **on the egg** (frost creeping in when cold; rosy glow + gentle heartbeat wobble when warm) plus a small thermometer (**diegetic UI**).
-- **Hatching:** with the egg's needs met, a **crack appears after ~8 hours**; it **hatches the next day after ~15 attention minutes**: cumulative time with the screen on and the egg touched/handled in the last ~10 s, across any number of visits; extra cracks at 5 / 10 / 15 min. The hatch always happens in front of the player.
+- **Hatching rules** (Stage 2; *defaults* filled in where the design was silent are marked and tunable in `Tuning.h`):
+  1. **Incubation:** the egg accumulates *warm time* while its warmth is above a threshold. *Default:* warmth decays with the same asymmetric multipliers as needs, so nights and school don't freeze it.
+  2. **First crack** after ~8 h of warm time (not wall-clock time: a cold egg doesn't progress).
+  3. **Hatch day** opens at the **next morning's wake time** from the schedule. *Default:* a crack that lands in the evening still waits for the next morning.
+  4. **Attention minutes** (only counted once hatch day is open): cumulative time with the screen on and the egg touched or handled in the last ~10 s, across any number of visits. An idle screen doesn't count.
+  5. **Extra cracks at 5 and 10 attention minutes; hatch at 15.** Because only interaction counts, the hatch always happens in front of the player.
+  6. **Lifecycle:** egg → hatching → baby. Needs only start draining once the baby hatches.
+- **Egg art:** one egg per pet, hinting at what's inside (sausage dog: caramel/cocoa patches; husky: grey cap, white base); crack stages 0–3 and a short hatch sequence; rendered upright, with leaning and rolling done on the device by rotating the sprite.
 - **Growth after hatching** (baseline: baby ~3 days, teen ~2 weeks, adult ~4 weeks; held at teen until adult art exists) must **feel dynamic**: **growth points** from good care plus milestones (meals, baths, nights slept, play), within a window (e.g. teen in 10–18 days); telltale signs a day before (restless, appetite spikes); transitions happen in front of the player; the wait for adult art is disguised as a "lazy teen phase".
 
 ### Time

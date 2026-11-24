@@ -1,18 +1,21 @@
 // Desktop simulator: the same game core and M5Unified drawing code as the Core2,
 // rendered into an SDL2 window.
 //
-// Keys: arrows Left/Down/Right = buttons A/B/C, mouse click = touch,
-//       ] faster, [ slower (0 = paused), J jump one hour, F toggle face-down.
+// Keys: arrows Left/Down/Right = buttons A/B/C, mouse click/drag = touch,
+//       ] faster, [ slower (0 = paused), J jump one hour, F toggle face-down,
+//       A / D tilt left / right 10 degrees, S level, X shake.
 // (M5GFX's SDL port already uses keys 1-6 for window zoom and R/L for rotation.)
 
 #include <M5Unified.h>
 
 #include <chrono>
+#include <cmath>
 #include <ctime>
 #include <memory>
 
 #include "../m5/M5Platform.h"
 #include "petcore/App.h"
+#include "petcore/Life.h"
 #include "petcore/TimeUtil.h"
 
 namespace {
@@ -31,15 +34,37 @@ class SystemClock : public petcore::Clock {
   }
 };
 
-// Stand-in for the IMU: F toggles "lying face-down".
+// Stand-in for the IMU: keys set a tilt angle, a shake and "lying face-down".
+// The device is imagined held upright, so tilting rotates gravity in the screen plane.
 class KeyboardMotion : public petcore::Motion {
  public:
   bool down = false;
-  bool faceDown() override { return down; }
+  float tiltDeg = 0.0f;
+  bool shakeNext = false;
+  petcore::MotionFrame read() override {
+    petcore::MotionFrame m;
+    const float rad = tiltDeg * 3.14159265f / 180.0f;
+    m.gx = std::sin(rad);
+    m.gy = std::cos(rad);
+    m.gz = 0.0f;
+    m.shake = shakeNext;
+    shakeNext = false;
+    m.faceDown = down;
+    return m;
+  }
 };
 
 // M5GFX's SDL port turns mapped keys into emulated GPIO pins (pressed = low).
-enum : uint8_t { kPinFaster = 100, kPinSlower = 101, kPinJump = 102, kPinFaceDown = 103 };
+enum : uint8_t {
+  kPinFaster = 100,
+  kPinSlower = 101,
+  kPinJump = 102,
+  kPinFaceDown = 103,
+  kPinTiltLeft = 104,
+  kPinTiltRight = 105,
+  kPinLevel = 106,
+  kPinShake = 107,
+};
 
 class KeyEdge {
  public:
@@ -66,9 +91,10 @@ M5Input input;
 M5Sound sound;
 KeyboardMotion motion;
 std::unique_ptr<petcore::AcceleratedClock> gameClock;
-std::unique_ptr<petcore::Simulation> sim;
+std::unique_ptr<petcore::Life> life;
 std::unique_ptr<petcore::App> app;
 KeyEdge faster(kPinFaster), slower(kPinSlower), jump(kPinJump), faceDown(kPinFaceDown);
+KeyEdge tiltLeft(kPinTiltLeft), tiltRight(kPinTiltRight), level(kPinLevel), shake(kPinShake);
 
 }  // namespace
 
@@ -77,6 +103,10 @@ void setup() {
   lgfx::Panel_sdl::addKeyCodeMapping(SDLK_LEFTBRACKET, kPinSlower);
   lgfx::Panel_sdl::addKeyCodeMapping(SDLK_j, kPinJump);
   lgfx::Panel_sdl::addKeyCodeMapping(SDLK_f, kPinFaceDown);
+  lgfx::Panel_sdl::addKeyCodeMapping(SDLK_a, kPinTiltLeft);
+  lgfx::Panel_sdl::addKeyCodeMapping(SDLK_d, kPinTiltRight);
+  lgfx::Panel_sdl::addKeyCodeMapping(SDLK_s, kPinLevel);
+  lgfx::Panel_sdl::addKeyCodeMapping(SDLK_x, kPinShake);
 
   M5.begin();
   if (auto* panel = static_cast<lgfx::Panel_sdl*>(M5.Display.getPanel())) {
@@ -85,8 +115,8 @@ void setup() {
   display.begin();
 
   gameClock = std::make_unique<petcore::AcceleratedClock>(systemClock);
-  sim = std::make_unique<petcore::Simulation>(petcore::Schedule{}, gameClock->nowMs());
-  app = std::make_unique<petcore::App>(*sim, *gameClock, display, input, motion, sound);
+  life = std::make_unique<petcore::Life>(petcore::Schedule{}, gameClock->nowMs());
+  app = std::make_unique<petcore::App>(*life, *gameClock, display, input, motion, sound);
 }
 
 void loop() {
@@ -94,6 +124,10 @@ void loop() {
   if (slower.pressed() && speedIndex > 0) gameClock->setSpeed(kSpeeds[--speedIndex]);
   if (jump.pressed()) gameClock->jump(petcore::timeutil::kMsPerHour);
   if (faceDown.pressed()) motion.down = !motion.down;
+  if (tiltLeft.pressed() && motion.tiltDeg > -90.0f) motion.tiltDeg -= 10.0f;
+  if (tiltRight.pressed() && motion.tiltDeg < 90.0f) motion.tiltDeg += 10.0f;
+  if (level.pressed()) motion.tiltDeg = 0.0f;
+  if (shake.pressed()) motion.shakeNext = true;
   app->tick();
   M5.delay(33);  // ~30 frames per second
 }
