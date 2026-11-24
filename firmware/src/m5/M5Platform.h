@@ -16,6 +16,7 @@ class M5CanvasDisplay : public petcore::Display {
     canvas_.setFont(&fonts::Font0);
   }
   int width() const override { return canvas_.width(); }
+  void setBrightness(uint8_t level) override { M5.Display.setBrightness(level); }
   int height() const override { return canvas_.height(); }
   void beginFrame(uint16_t background) override { canvas_.fillScreen(background); }
   void fillRect(int x, int y, int w, int h, uint16_t color) override {

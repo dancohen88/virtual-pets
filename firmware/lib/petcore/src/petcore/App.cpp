@@ -139,15 +139,46 @@ App::App(Life& life, AcceleratedClock& clock, Display& display, Input& input, Mo
     : life_(life), clock_(clock), display_(display), input_(input), motion_(motion),
       sound_(sound) {}
 
+void App::applyScreenLevel() {
+  const ScreenLevel level = power_.level();
+  display_.setBrightness(level == ScreenLevel::On    ? tuning::kBrightnessOn
+                         : level == ScreenLevel::Dim ? tuning::kBrightnessDim
+                                                     : 0);
+  life_.setScreenOn(level != ScreenLevel::Off);  // attention minutes need a lit screen
+}
+
 void App::tick() {
+  if (frame_ == 0) applyScreenLevel();
   const InputFrame in = input_.poll();
   const MotionFrame motion = motion_.read();
   life_.setFaceDown(motion.faceDown);
 
-  if (life_.stage() == LifeStage::Egg) {
-    handleEggInput(in, motion);
-  } else if (life_.stage() == LifeStage::Baby && hatchFrame_ >= kHatchFrames) {
-    handleBabyInput(in);
+  // Screen power: any touch, button, shake or pick-up counts as activity.
+  const float lean = leanDegrees(motion);
+  // Tilt counts differently by screen state: while lit, any brisk handling keeps it awake;
+  // while dark, only a lasting change of orientation (being picked up) wakes it, so a bump
+  // on the desk doesn't. Tuned on hardware: a 3°/frame rule woke too easily.
+  const bool tiltWake = power_.level() == ScreenLevel::Off
+                            ? std::fabs(lean - leanAtDark_) > tuning::kWakeTiltFromRestDeg
+                            : std::fabs(lean - lastLean_) > tuning::kWakeTiltDegPerFrame;
+  const bool activity = in.a || in.b || in.c || in.tapped || in.touching || motion.shake || tiltWake;
+  lastLean_ = lean;
+  const ScreenLevel before = power_.level();
+  const bool wakeOnly = power_.update(activity);
+  if (power_.level() != before) {
+    applyScreenLevel();
+    if (power_.level() == ScreenLevel::Off) leanAtDark_ = lean;
+  }
+  const bool screenDark = power_.level() == ScreenLevel::Off;
+
+  // While dark the egg ignores the world (a jostled bag shouldn't topple it), and the
+  // input that wakes the screen is swallowed.
+  if (!screenDark && !wakeOnly) {
+    if (life_.stage() == LifeStage::Egg) {
+      handleEggInput(in, motion);
+    } else if (life_.stage() == LifeStage::Baby && hatchFrame_ >= kHatchFrames) {
+      handleBabyInput(in);
+    }
   }
 
   life_.advanceTo(clock_.nowMs());
@@ -156,6 +187,17 @@ void App::tick() {
     hatchFrame_ = 0;  // the hatch just happened: play the moment
     sound_.tone(1320, 200);
   }
+
+  if (screenDark) {  // draw one black frame, then nothing until woken
+    if (!blanked_) {
+      display_.beginFrame(0x0000);
+      display_.endFrame();
+      blanked_ = true;
+    }
+    ++frame_;
+    return;
+  }
+  blanked_ = false;
 
   if (life_.stage() == LifeStage::Egg) {
     renderEgg();
