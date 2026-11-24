@@ -3,8 +3,8 @@
 Usage (from the sounds/ folder):
     python3 fetch_sounds.py
 
-Some clips aren't committed to the repo (BigSoundBank's licence hasn't been cleared for
-redistribution; see CREDITS.md), so a fresh clone needs this before process_sounds.py.
+All clips are normally committed; this restores any that are missing (e.g. after pruning
+raw/ locally) before running process_sounds.py.
 
 Be polite to the hosts: downloads are spaced out, and Wikimedia rate-limits aggressive clients.
 """

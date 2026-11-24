@@ -1,0 +1,11 @@
+{
+  "name": "petcore",
+  "version": "0.1.0",
+  "description": "Pure C++ game core for the virtual pets: needs, time, schedule, simulation and a placeholder UI. No Arduino or M5 dependencies.",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": {
+    "srcDir": "src",
+    "includeDir": "src"
+  }
+}

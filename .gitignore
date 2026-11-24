@@ -14,10 +14,6 @@ sounds/curate.html
 # --- Moodboards: collages of other people's images, kept local --------------
 art/moodboards/
 
-# --- Third-party audio not yet cleared for redistribution -------------------
-# BigSoundBank's licence hasn't been verified; sounds/fetch_sounds.py re-downloads these.
-sounds/raw/bigsoundbank/
-
 # --- Tooling noise ------------------------------------------------------------
 .DS_Store
 __pycache__/

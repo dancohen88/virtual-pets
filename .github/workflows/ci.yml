@@ -1,0 +1,49 @@
+# Continuous integration: on every push and pull request, run the host-side tests
+# and check that the firmware still builds for the device and the simulator.
+name: CI
+
+# push to main + every pull request: a push to a PR branch would otherwise fire both
+# triggers and run everything twice.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  firmware:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: firmware
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # PlatformIO downloads toolchains and libraries on first use; caching them
+      # turns a several-minute setup into seconds on later runs.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            ~/.cache/pip
+            firmware/.pio/libdeps
+          key: pio-${{ runner.os }}-${{ hashFiles('firmware/platformio.ini') }}
+
+      - name: Install PlatformIO and SDL2
+        run: |
+          pip install platformio
+          sudo apt-get update && sudo apt-get install -y libsdl2-dev pkg-config
+
+      - name: Unit tests (host)
+        run: pio test -e native
+
+      # The first Core2 build downloads ~1 GB of ESP32 toolchain, which occasionally
+      # fails part-way; one retry covers a flaky mirror without hiding real errors.
+      - name: Build device firmware (Core2)
+        run: pio run -e core2 || pio run -e core2
+
+      - name: Build desktop simulator
+        run: pio run -e sim

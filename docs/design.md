@@ -78,7 +78,7 @@ _Last updated: 2026-11-23_
 ### Art
 - **Blender, pre-rendered to 2D sprites**; no real-time 3D on device.
 - **Division of labour:** Claude scripts all modelling, rigging, rendering and conversion via headless Blender (`bpy`); the builder art-directs (moodboards, render feedback, approval). Fallback: the builder hand-sculpts a face if a pet isn't landing.
-- **Moodboards in PureRef**, one per pet, four sections: shape & proportion, material & colour, faces & expressions, personality & humour. Material and faces shared so the pets feel like one world. Brief: [`docs/moodboard-brief.md`](moodboard-brief.md).
+- **Moodboards** in a reference-board app (BeeRef suggested: free, open source), one per pet, four sections: shape & proportion, material & colour, faces & expressions, personality & humour. Material and faces shared so the pets feel like one world. Brief: [`docs/moodboard-brief.md`](moodboard-brief.md).
 - Premium plush toys are a reference for *qualities* (floppy, squashy, fabric-soft, deadpan faces); the creatures themselves are original designs.
 - **View:** ¾ view angled toward the player, head can turn to look at you; each pet has its own **home** background. **Static images for now**, maybe a few more later.
 - **Animation:** body frames rendered from Blender, **face as swappable layers** (face region rendered per expression for the same frames, composited on device), procedural squash/stretch and gyro wobble on top.
@@ -109,7 +109,7 @@ After launch: adults, pets meeting, mini-games, more shop stock.
 - **Public GitHub repo**, created in Stage 1, with a neutral name and README; presentable enough to share.
 - **Personal context stays out of the repo:** committed files refer to "player 1 / player 2", "the sausage dog / the husky". Anything personal lives in the gitignored `docs/private.md`.
 - **Commit sources, not build outputs:** scripts, curation picks, Blender sources committed; anything a script regenerates (processed sounds, renders) gitignored; no Git LFS; finished device asset packs and firmware go on **GitHub Releases**.
-- **Third-party sounds:** only clips whose licence allows redistribution are committed (CC0, public domain, CC BY / BY-SA with credits), listed in [`CREDITS.md`](../CREDITS.md). BigSoundBank clips stay out until their licence is checked; the fetch script + manifest recreate them.
+- **Third-party sounds:** only clips whose licence allows redistribution are committed (CC0, public domain, CC BY / BY-SA, BigSoundBank's licence, checked 2026-11-23), all credited in [`CREDITS.md`](../CREDITS.md). The fetch script + manifest can recreate any that go missing.
 - **Licences:** **MIT** for code; **CC BY-NC 4.0** for original art (pets, homes, stickers); third-party sounds keep their own licences.
 - **A branch + pull request per build stage**; merging closes the stage and links its field guide. Small commits within the branch.
 - **CI from Stage 1:** GitHub Actions runs host-side tests and builds both pets' firmware on every push; a release workflow attaches per-pet firmware.
@@ -133,7 +133,6 @@ Outputs in `art/prototype/renders/`: hero sprite (transparent + soft shadow), no
 - Palette (after moodboards).
 - Shop and awards-book screens; full sticker list (Stage 7).
 
-## Project backlog (after launch)
+## Project backlog
 
-- **Mini-games** using gyro/touch (tilt maze, catch, rhythm with the speaker).
-- **Pets meeting across devices** (ESP-NOW): v1 = visits + item swaps + a few reactions; later play together, rivalry, friendship meter. Design for it now (pet IDs, tradeable items).
+Tracked as GitHub issues, grouped by milestone: [open issues](https://github.com/dancohen88/virtual-pets/issues) · [After launch milestone](https://github.com/dancohen88/virtual-pets/milestone/10). New backlog items go there, not here.
