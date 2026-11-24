@@ -27,6 +27,12 @@ class M5CanvasDisplay : public petcore::Display {
   void fillEllipse(int cx, int cy, int rx, int ry, uint16_t color) override {
     canvas_.fillEllipse(cx, cy, rx, ry, color);
   }
+  void fillTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint16_t color) override {
+    canvas_.fillTriangle(x0, y0, x1, y1, x2, y2, color);
+  }
+  void drawLine(int x0, int y0, int x1, int y1, uint16_t color) override {
+    canvas_.drawLine(x0, y0, x1, y1, color);
+  }
   void drawText(int x, int y, const char* text, uint16_t color, int size) override {
     canvas_.setTextColor(color);
     canvas_.setTextSize(size);
@@ -48,10 +54,16 @@ class M5Input : public petcore::Input {
     f.b = M5.BtnB.wasPressed();
     f.c = M5.BtnC.wasPressed();
     const auto touch = M5.Touch.getDetail();
-    if (touch.wasPressed() && touch.y < M5.Display.height()) {  // below the screen = buttons
+    const bool onScreen = touch.y < M5.Display.height();  // below the screen = buttons
+    if (touch.wasPressed() && onScreen) {
       f.tapped = true;
       f.tapX = touch.x;
       f.tapY = touch.y;
+    }
+    if (touch.isPressed() && onScreen) {  // held down: lets the app see a rubbing finger
+      f.touching = true;
+      f.touchX = touch.x;
+      f.touchY = touch.y;
     }
     return f;
   }

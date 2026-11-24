@@ -22,6 +22,8 @@ struct Schedule {
 
   const DayProfile& profileFor(int weekdayIndex) const;  // 0 = Sunday
   Activity activityAt(int64_t localMs) const;
+  // The first wake-up time strictly after localMs (today's if still ahead, else tomorrow's).
+  int64_t nextWakeAfter(int64_t localMs) const;
 };
 
 }  // namespace petcore
