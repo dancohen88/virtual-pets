@@ -83,15 +83,20 @@ class RtcClock : public petcore::Clock {
         setRtc(buildMs);
         rtcMs = buildMs;
         prefs.putString("build", kBuildStamp);
+        source_ = newBuild ? "set from this build's stamp" : "raised to the build time (RTC was behind)";
+      } else {
+        source_ = "kept from the RTC";
       }
       prefs.end();
     }
     offsetMs_ = rtcMs - esp_timer_get_time() / 1000;
   }
   int64_t nowMs() override { return offsetMs_ + esp_timer_get_time() / 1000; }
+  const char* source() const { return source_; }
 
  private:
   int64_t offsetMs_ = 0;
+  const char* source_ = "no RTC: build time";
 };
 
 // Gravity, shake and face-down from the accelerometer (in g). Constants in HardwareTuning.h.
@@ -135,6 +140,13 @@ void setup() {
   M5.begin();
   rtcClock.begin();
   display.begin();
+  Serial.begin(115200);
+  {
+    // Boot report: lets the clock be checked over USB without watching the screen.
+    const auto dt = M5.Rtc.getDateTime();
+    Serial.printf("Clock: %04d-%02d-%02d %02d:%02d:%02d (%s)\n", dt.date.year, dt.date.month, dt.date.date,
+                  dt.time.hours, dt.time.minutes, dt.time.seconds, rtcClock.source());
+  }
   gameClock = std::make_unique<petcore::AcceleratedClock>(rtcClock);  // runs at x1 on the device
   life = std::make_unique<petcore::Life>(petcore::Schedule{}, gameClock->nowMs());
   app = std::make_unique<petcore::App>(*life, *gameClock, display, input, motion, sound);
