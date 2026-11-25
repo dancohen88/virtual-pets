@@ -68,4 +68,13 @@ constexpr int64_t kAttentionThirdCrackMs = 10LL * 60 * 1000;
 constexpr int64_t kAttentionHatchMs = 15LL * 60 * 1000;
 constexpr int64_t kHatchingMs = 5000;  // the hatching moment, before the baby's needs start
 
+// --- Screen power-saving (frames at ~30 fps, so independent of game speed) ---
+constexpr int kScreenDimAfterFrames = 20 * 30;  // 20 s idle -> dim
+constexpr int kScreenOffAfterFrames = 60 * 30;  // 60 s idle -> off
+constexpr float kWakeTiltDegPerFrame = 5.0f;    // screen on: a lean change this fast = handled
+constexpr float kWakeTiltFromRestDeg = 15.0f;   // screen dark: orientation must really change
+                                                // (desk bumps jolt, but leave it lying the same way)
+constexpr uint8_t kBrightnessOn = 128;          // 0..255 backlight
+constexpr uint8_t kBrightnessDim = 24;
+
 }  // namespace petcore::tuning

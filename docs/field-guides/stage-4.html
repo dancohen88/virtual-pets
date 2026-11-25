@@ -1,0 +1,449 @@
+<title>Stage 4 Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a field notebook on grid paper; specimen cards are drawn like the pets,
+   with a thick ink outline and a flat offset shadow (the cel-shaded look). */
+:root {
+  --paper: #eaf1f5;      /* husky-ice grid paper */
+  --grid: #d3e0e8;
+  --card: #fbfdfe;
+  --ink: #3b2518;        /* cocoa outline, same family as the pets' ink */
+  --muted: #5f5249;
+  --caramel: #c9732f;    /* sausage dog */
+  --slate: #4f6688;      /* husky */
+  --leaf: #3f7d4e;       /* spotted / done */
+  --shade: #cbd8e1;      /* flat cel shadow */
+  --f-display: "Fredoka", "Avenir Next Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+    --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121a23; --grid: #1c2733; --card: #18222d; --ink: #f0e4d8; --muted: #b8aa9c;
+  --caramel: #e79a5b; --slate: #93abd0; --leaf: #7cc08c; --shade: #0b1117; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font: 17px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+.page { max-width: 980px; margin: 0 auto; display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+h3 { font-size: 1.25rem; }
+p { margin: 0; max-width: 65ch; }
+code, .mono { font-family: var(--f-mono); font-size: 0.86em; }
+code { background: var(--grid); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+a { color: var(--slate); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible + label { outline: 3px solid var(--caramel); outline-offset: 3px; }
+.eyebrow { font-family: var(--f-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.section { display: grid; gap: 20px; }
+.lede { color: var(--muted); font-size: 1.08rem; }
+
+/* Ink-outlined object: the one bold device on the page. */
+.inked { background: var(--card); border: 3px solid var(--ink); border-radius: 18px; box-shadow: 6px 6px 0 var(--shade); }
+
+/* Hero */
+.hero { display: grid; gap: 18px; }
+.specimens { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.specimen { padding: 14px 16px 16px; display: grid; gap: 6px; }
+.specimen img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; image-rendering: auto; }
+.tag { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.tag.saus { color: var(--caramel); } .tag.husk { color: var(--slate); }
+.specimen p { font-size: 0.95rem; color: var(--muted); }
+.strip { padding: 12px 14px 14px; display: grid; gap: 8px; margin: 0; }
+.strip img { width: 100%; height: auto; aspect-ratio: 8 / 3; object-fit: contain; border-radius: 10px; }
+.strip figcaption { font-size: 0.92rem; color: var(--muted); }
+.tally { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--f-mono); font-size: 0.88rem; color: var(--muted); }
+.tally b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.note { border-left: 4px solid var(--slate); background: var(--card); border-radius: 0 12px 12px 0; padding: 12px 16px; font-size: 0.97rem; max-width: none; }
+
+/* Habitat map */
+.map { padding: 18px; overflow-x: auto; }
+.parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 24px; list-style: none; padding: 0; margin: 0; }
+.parts li { display: grid; gap: 2px; min-width: 0; }
+.parts li strong { font-family: var(--f-display); font-weight: 500; font-size: 1.05rem; }
+.parts li span { color: var(--muted); font-size: 0.95rem; }
+
+/* Ideas */
+.ideas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.idea { padding: 16px 18px; display: grid; gap: 10px; align-content: start; transition: transform 0.15s ease; }
+.idea.spotted { border-color: var(--leaf); }
+.idea dl { margin: 0; display: grid; gap: 6px; font-size: 0.95rem; }
+.idea dt { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.idea dd { margin: 0; min-width: 0; }
+.spot { justify-self: start; font: 600 0.9rem var(--f-display); color: var(--ink); background: transparent; border: 2px solid var(--ink); border-radius: 999px; padding: 4px 14px; cursor: pointer; }
+.spot[aria-pressed="true"] { background: var(--leaf); border-color: var(--leaf); color: var(--card); }
+
+/* Experiments */
+.trials { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.trial { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-left: 4px solid var(--caramel); background: var(--card); border-radius: 0 12px 12px 0; }
+.trial input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--leaf); }
+.trial label { display: grid; gap: 4px; cursor: pointer; }
+.trial label strong { font-family: var(--f-display); font-weight: 500; font-size: 1.08rem; }
+.trial pre { margin: 4px 0 0; padding: 8px 10px; background: var(--grid); border-radius: 8px; overflow-x: auto; font: 0.85rem/1.5 var(--f-mono); }
+
+/* GitHub corner */
+.corner { padding: 20px 22px; display: grid; gap: 16px; }
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 24px; margin: 0; }
+.terms div { min-width: 0; }
+.terms dt { font-family: var(--f-display); font-weight: 600; }
+.terms dd { margin: 2px 0 0; color: var(--muted); font-size: 0.95rem; }
+.quiz { display: grid; gap: 18px; }
+.q { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; }
+.q legend { font-weight: 700; padding: 0; margin-bottom: 4px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 0.95rem var(--f-body); color: var(--ink); background: var(--paper); border: 2px solid var(--grid); border-radius: 10px; padding: 6px 12px; cursor: pointer; text-align: left; }
+.opt.right { border-color: var(--leaf); background: color-mix(in srgb, var(--leaf) 16%, var(--card)); }
+.opt.wrong { border-color: var(--caramel); }
+.why { font-size: 0.93rem; color: var(--muted); }
+
+/* Sticker book */
+.book { padding: 20px; display: grid; gap: 16px; }
+.stickers { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px; }
+.sticker { display: grid; justify-items: center; gap: 6px; text-align: center; }
+.sticker svg { width: 104px; height: 104px; transition: transform 0.25s ease, filter 0.25s ease; }
+.sticker.locked svg { filter: grayscale(1) opacity(0.35); }
+.sticker.got svg { transform: rotate(-4deg); }
+.sticker b { font-family: var(--f-display); font-weight: 600; }
+.sticker span { font-size: 0.85rem; color: var(--muted); }
+.progress { font-family: var(--f-mono); font-size: 0.9rem; color: var(--muted); }
+
+footer { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.95rem; color: var(--muted); }
+
+@media (max-width: 560px) {
+  .specimens { grid-template-columns: 1fr; }
+  body { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Bring-up log: field notes down a timeline */
+.log { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; counter-reset: note; }
+.entry { position: relative; padding: 14px 16px 14px 56px; background: var(--card); border-radius: 12px; border: 2px solid var(--grid); display: grid; gap: 6px; }
+.entry::before { counter-increment: note; content: counter(note); position: absolute; left: 14px; top: 14px; width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--ink); background: var(--caramel); color: var(--card); font: 600 0.9rem/22px var(--f-display); text-align: center; }
+.entry.ok::before { background: var(--leaf); }
+.entry h3 { font-size: 1.1rem; }
+.entry dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 0.95rem; }
+.entry dt { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.entry dd { margin: 0; min-width: 0; }
+.device svg { width: 100%; height: auto; max-height: 260px; }
+.facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: 0.97rem; }
+.facts li { display: grid; gap: 1px; }
+.facts b { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+@media (max-width: 560px) { .entry dl { grid-template-columns: 1fr; } .entry dt { padding-top: 0; } }
+</style>
+
+<div class="page">
+
+  <header class="hero">
+    <span class="eyebrow">Virtual Pets · Field guide · Stage 4 of 9</span>
+    <h1>Hardware bring-up: the egg meets real hands</h1>
+    <p class="lede">The boards arrived early, so Stage 4 jumped the queue ahead of Stage 3 (sprites). The same game core that runs in the simulator now runs on a Core2 in your hand. Real hardware had opinions: a mirrored axis, an unset clock, buttons that only feel one finger. Here is what we found, how we fixed it, and what it teaches.</p>
+    <div class="specimens">
+      <figure class="specimen inked device" style="margin:0">
+        <svg viewBox="0 0 240 200" role="img" aria-label="Drawing of an M5Stack Core2: a rounded square case with a screen showing an egg, and three touch-button circles below the screen">
+          <rect x="30" y="10" width="180" height="180" rx="22" fill="var(--paper)" stroke="var(--ink)" stroke-width="5" />
+          <rect x="48" y="26" width="144" height="108" rx="6" fill="var(--grid)" stroke="var(--ink)" stroke-width="3" />
+          <ellipse cx="120" cy="84" rx="20" ry="26" fill="var(--card)" stroke="var(--ink)" stroke-width="3" />
+          <path d="M104 76 Q120 62 136 76 L136 70 Q120 54 104 70 Z" fill="var(--slate)" stroke="var(--ink)" stroke-width="2" />
+          <rect x="182" y="40" width="4" height="40" rx="2" fill="var(--caramel)" />
+          <circle cx="78" cy="160" r="9" fill="none" stroke="var(--caramel)" stroke-width="3" />
+          <circle cx="120" cy="160" r="9" fill="none" stroke="var(--caramel)" stroke-width="3" />
+          <circle cx="162" cy="160" r="9" fill="none" stroke="var(--caramel)" stroke-width="3" />
+          <text x="78" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">A</text>
+          <text x="120" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">B</text>
+          <text x="162" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">C</text>
+        </svg>
+        <span class="tag husk">Specimen · M5Stack Core2 v1.3</span>
+        <p>Field marks: square case, 320×240 touch screen, three marked circles below it. The circles aren't buttons: they're the bottom edge of the touch panel.</p>
+      </figure>
+      <div class="specimen inked">
+        <span class="tag saus">Spec sheet, as measured</span>
+        <ul class="facts">
+          <li><b>Chip</b>ESP32-D0WDQ6-V3 (revision v3.1), reported by the flasher</li>
+          <li><b>Motion sensor</b>BMI270, which M5Unified reports as IMU type 6</li>
+          <li><b>Screen</b>320×240 capacitive touch, with virtual buttons A, B, C below it</li>
+          <li><b>Also on board</b>speaker, vibration motor, battery-backed real-time clock</li>
+          <li><b>USB port on this Mac</b><code>/dev/cu.usbserial-…</code></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tally" aria-label="Stage 4 in numbers">
+      <span><b>2</b> boards (one fully brought up, one to validate)</span>
+      <span><b>~24 s</b> first flash</span>
+      <span><b>54</b> host tests (<b>5</b> new)</span>
+      <span><b>8</b> bring-up findings</span>
+      <span><b>1</b> secret knock</span>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="log-h">
+    <span class="eyebrow">Bring-up log</span>
+    <h2 id="log-h">Field notes, in the order we found them</h2>
+    <p>Each note: what we saw, why it happened, what changed. Checked off as we went in <a href="https://github.com/dancohen88/virtual-pets/issues/3">issue #3</a>.</p>
+    <ol class="log" id="log"></ol>
+  </section>
+
+  <section class="section" aria-labelledby="ideas-h">
+    <span class="eyebrow">Ideas spotted in the wild</span>
+    <h2 id="ideas-h">Nine ideas living in this code</h2>
+    <p>Each has a real name you can look up. Find it in its habitat, then mark it spotted.</p>
+    <div class="ideas" id="ideas"></div>
+  </section>
+
+  <section class="section" aria-labelledby="trials-h">
+    <span class="eyebrow">Things to try</span>
+    <h2 id="trials-h">Five experiments, five minutes each</h2>
+    <p>Run firmware commands from the <code>firmware/</code> folder with a Core2 plugged in. Undo any edits afterwards by running <code>git restore .</code> from the repo root, then flash again to put the device back.</p>
+    <ol class="trials" id="trials"></ol>
+  </section>
+
+  <section class="section" aria-labelledby="gh-h">
+    <span class="eyebrow">GitHub corner · skill 3 of 9</span>
+    <h2 id="gh-h">Issues as a lab notebook</h2>
+    <div class="corner inked">
+      <p>An issue isn't only a bug report. For bring-up it was our lab notebook: a checklist to work through and a dated log of every finding. Worked example: <a href="https://github.com/dancohen88/virtual-pets/issues/3">issue #3, "Verify hardware assumptions on a real Core2 v1.3"</a>.</p>
+      <dl class="terms">
+        <div><dt>Task lists</dt><dd>Lines starting <code>- [ ]</code> become checkboxes; <code>- [x]</code> is ticked. GitHub shows the progress on the issue (and wherever it's linked).</dd></div>
+        <div><dt>Comments as a log</dt><dd>Each finding went in as a new comment, so the issue reads top to bottom as what happened, in order, with timestamps.</dd></div>
+        <div><dt>Refs vs Closes</dt><dd>"Refs #3" in a commit or PR links to the issue and leaves it open. "Closes #3" closes it when the PR merges. Use Closes only when the work is truly finished.</dd></div>
+        <div><dt>Labels and milestones</dt><dd>Issue #3 carries the <code>firmware</code> label and sits in the "Stage 4: Hardware bring-up" milestone, so it shows up in both views.</dd></div>
+        <div><dt>Closing with a summary</dt><dd>Before closing, leave a last comment: what was confirmed, what moved elsewhere (face-down waits for the napping baby). Future you will read that first.</dd></div>
+      </dl>
+      <div class="quiz" id="quiz"></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="book-h">
+    <span class="eyebrow">Sticker book</span>
+    <h2 id="book-h">Stage 4 stickers</h2>
+    <div class="book inked">
+      <p class="progress" id="progress"></p>
+      <div class="stickers" id="stickers"></div>
+      <p class="why">Locked stickers show as grey silhouettes, the same trick the pets' awards book will use. Progress is saved in this browser only.</p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/dancohen88/virtual-pets/milestone/4">Stage 4 milestone</a>
+    <a href="https://github.com/dancohen88/virtual-pets/issues/3">Issue #3: hardware checklist</a>
+    <a href="https://github.com/dancohen88/virtual-pets/blob/main/docs/design.md">Design decisions</a>
+    <a href="https://claude.ai/artifact/HAE3yT1R46oxgZmL9spVKR">Stage 2 field guide</a>
+    <span>Next stage: sprites (Stage 3).</span>
+  </footer>
+</div>
+
+<script>
+const LOG = [
+  { ok: true, title: "The first flash worked",
+    saw: "The flasher identified an ESP32-D0WDQ6-V3, wrote about 550 KB, verified every block and reset the board in about 24 seconds. The egg appeared.",
+    why: "The core2 build had compiled since Stage 1; this was the first time it ran on silicon.",
+    fix: "Nothing to fix. No serial output either, which is good: a crash loop would print the chip's boot message over and over." },
+  { title: "Tilting left leaned the egg right",
+    saw: "Every tilt was mirrored.",
+    why: "The motion sensor's X axis points the opposite way to the screen's right. Which way an axis points depends on how the chip is mounted.",
+    fix: "kImuSignX = -1 in HardwareTuning.h (it had been +1)." },
+  { title: "The date and time were wrong",
+    saw: "The clock showed a factory default.",
+    why: "A brand-new board's real-time clock has never been set.",
+    fix: "On boot, if the clock reads earlier than the firmware's build time (the compiler's __DATE__ and __TIME__), write the build time into it with M5.Rtc.setDateTime(). Survives power-off thanks to the backup battery." },
+  { title: "Shaking took real effort, and the wobble was tiny",
+    saw: "A hard shake barely nudged the egg.",
+    why: "The threshold was 1 g of extra force: more than an ordinary shake.",
+    fix: "kShakeG = 0.45 (a firm, ordinary shake), and a bigger, slower dizzy wobble: 26° over 75 frames (~2.5 s)." },
+  { title: "Holding two buttons at power-on did nothing",
+    saw: "The planned self-test trigger never fired.",
+    why: "Capacitive touch panels calibrate at power-on: fingers already resting on them become the 'untouched' baseline.",
+    fix: "Dropped boot-time holds entirely." },
+  { title: "Holding A and C together did nothing either",
+    saw: "With two fingers down, the debug line only ever showed one button pressed.",
+    why: "The Core2's virtual buttons register one touch at a time.",
+    fix: "A secret knock instead: tap A, C, A, C within 3 s (SecretKnock, kPattern = {0, 2, 0, 2}, kWindowFrames = 90). Recorded in the design doc's touch limits: nothing may need simultaneous touches." },
+  { ok: true, title: "The self-test passed",
+    saw: "Buttons light up; A buzzes, B beeps, C chirps; the lean needle follows the tilt; the touch dot follows a finger; SHAKE! flashes; battery and clock look right.",
+    why: "With the knock working, every sensor and output could be checked from one screen.",
+    fix: "Confirmed the motion sensor is a BMI270 (type 6), the question open since day one." },
+  { title: "Power-saving woke a little too easily",
+    saw: "The screen dims at 20 s idle and goes dark at 60 s; a wake-up tap is swallowed. But small desk bumps woke it.",
+    why: "While dark, a 3° change in one frame counted as being picked up.",
+    fix: "Two rules: while lit, a lean change over kWakeTiltDegPerFrame = 5° in a frame counts as handling; while dark, the orientation must move more than kWakeTiltFromRestDeg = 15° from where it was when the screen went off." },
+];
+
+const IDEAS = [
+  { id: "bringup", name: "Hardware bring-up", where: "issue #3 · firmware/src/core2/",
+    marks: "Flash the smallest working build, then check every assumption one at a time on the real device, fixing as you go.",
+    why: "Simulators can't know which way a chip is mounted or how a touch panel behaves. Bring-up turns guesses into facts." },
+  { id: "axes", name: "Axis conventions", where: "HardwareTuning.h · kImuSignX = -1, kImuSignY = -1",
+    marks: "A sensor reports x, y, z in its own frame. A sign flip maps it to the screen's right and down.",
+    why: "One minus sign fixed the mirrored tilt, and lives next to its explanation." },
+  { id: "rtc", name: "RTC with a safe floor", where: "core2/main.cpp · buildTime(), RtcClock::begin()",
+    marks: "The battery-backed clock keeps time when off. If it reads earlier than the firmware's build time, the build time wins.",
+    why: "A sensible default until Wi-Fi time sync (Stage 6): the clock can never be older than the code running on it." },
+  { id: "baseline", name: "Capacitive baseline calibration", where: "docs/design.md · touch limits",
+    marks: "The touch panel learns what 'untouched' feels like when it powers on.",
+    why: "Anything already touching it at boot is invisible. That killed the boot-time trigger." },
+  { id: "limits", name: "Designing within hardware limits", where: "docs/design.md · touch limits",
+    marks: "The virtual buttons only report one touch at a time.",
+    why: "Instead of fighting the hardware, the rule became a design constraint: hidden gestures are single-tap sequences." },
+  { id: "knock", name: "Input sequence detection", where: "SelfTest.h · SecretKnock",
+    marks: "A tiny state machine: each correct tap advances a step; a wrong tap or a slow one starts over.",
+    why: "A hidden trigger that's easy on purpose and unlikely by accident, using only single taps." },
+  { id: "power", name: "Power state machine", where: "ScreenPower.h · ScreenLevel On / Dim / Off",
+    marks: "Idle frames move On → Dim (kScreenDimAfterFrames, 20 s) → Off (kScreenOffAfterFrames, 60 s). Any activity jumps back to On.",
+    why: "Saves the battery, and attention minutes stop counting when the screen is dark (Life::setScreenOn)." },
+  { id: "consume", name: "Consumed wake input", where: "ScreenPower::update() · test_waking_from_off_consumes_the_activity",
+    marks: "The tap that wakes a dark screen returns true from update() and is ignored by the game.",
+    why: "Waking the screen should never also stroke the egg. A dim screen is still readable, so taps there count." },
+  { id: "noise", name: "Filtering noise with two thresholds", where: "Tuning.h · kWakeTiltDegPerFrame = 5, kWakeTiltFromRestDeg = 15",
+    marks: "Lit: brisk handling keeps it awake. Dark: only a lasting change of orientation wakes it.",
+    why: "A bump on the desk changes the lean for a moment; being picked up changes where it ends up." },
+];
+
+const TRIALS = [
+  { id: "selftest", title: "Read the BMI270 while tilting",
+    body: "With the egg on screen, tap A, C, A, C within 3 seconds. Tilt slowly and watch the accel numbers and the green lean needle. Lay it flat, then stand it up: which axis carries the 1 g of gravity each time? Power-cycle to leave." },
+  { id: "shake", title: "Make the shake stiffer or softer",
+    body: "In src/core2/HardwareTuning.h, change kShakeG from 0.45f to 0.8f, flash, and feel how hard you now have to shake. Then try 0.3f. Put it back to 0.45f afterwards.",
+    code: "pio run -e core2 -t upload --upload-port /dev/cu.usbserial-…" },
+  { id: "screentests", title: "Run just the screen tests",
+    body: "Five tests describe the power rules in plain English, from test_starts_on to test_waking_from_off_consumes_the_activity.",
+    code: "pio test -e native -f test_screen" },
+  { id: "stopwatch", title: "Time the dim and the dark",
+    body: "Put the Core2 down and start a stopwatch. It should dim at about 20 s and go dark at about 60 s. Tap to wake it: the egg's thermometer shouldn't move from that tap." },
+  { id: "port", title: "Find the port and flash by hand",
+    body: "List the serial ports with the Core2 plugged in, then again unplugged. The one that disappears is the board. Use it in the upload command.",
+    code: "ls /dev/cu.*\npio run -e core2 -t upload --upload-port /dev/cu.usbserial-…" },
+];
+
+const QUIZ = [
+  { id: "q1", text: "A commit fixes one checklist item in issue #3, but more items remain. What do you write in the message?",
+    opts: ["Closes #3", "Refs #3", "Nothing, issues can't be linked"], right: 1,
+    why: "Refs links the commit to the issue without closing it. Closes #3 would shut the issue on merge with work still open." },
+  { id: "q2", text: "How do you add a checkbox to an issue?",
+    opts: ["Start a line with - [ ]", "Use the Labels menu", "Write TODO in capitals"], right: 0,
+    why: "Markdown task lists: - [ ] is open, - [x] is done, and GitHub tallies them." },
+  { id: "q3", text: "Face-down detection can't be tested until the baby can nap. What should happen to that item when Stage 4 closes?",
+    opts: ["Tick it anyway", "Move it to a later issue or milestone and say so in a closing comment", "Delete the line"], right: 1,
+    why: "Closing with a summary keeps the record honest: confirmed items ticked, deferred ones moved with a note pointing to where they went." },
+];
+
+const STICKERS = [
+  { id: "flash", name: "First Flash", how: "Open the Stage 4 guide", color: "--caramel", glyph: "chip" },
+  { id: "whisperer", name: "Bug Whisperer", how: "Spot all nine ideas", color: "--slate", glyph: "wrench" },
+  { id: "selftester", name: "Self-Tester", how: "Tick off all five experiments", color: "--leaf", glyph: "wave" },
+  { id: "keeper", name: "Issue Keeper", how: "Answer the GitHub corner right", color: "--slate", glyph: "checklist" },
+  { id: "complete", name: "Stage 4 Complete", how: "Earn the other four", color: "--caramel", glyph: "paw" },
+];
+
+const KEY = "vp-field-guide-stage-4";
+let state = { spotted: {}, trials: {}, quiz: {} };
+try { state = Object.assign(state, JSON.parse(localStorage.getItem(KEY) || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} renderStickers(); };
+const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+
+// Bring-up log
+const logEl = document.getElementById("log");
+for (const e of LOG) {
+  const li = el("li", "entry" + (e.ok ? " ok" : ""));
+  li.innerHTML = `<h3>${e.title}</h3><dl><dt>Saw</dt><dd>${e.saw}</dd><dt>Why</dt><dd>${e.why}</dd><dt>Fix</dt><dd>${e.fix}</dd></dl>`;
+  logEl.appendChild(li);
+}
+
+// Ideas
+const ideasEl = document.getElementById("ideas");
+for (const i of IDEAS) {
+  const card = el("article", "idea inked");
+  card.innerHTML = `<h3>${i.name}</h3>
+    <dl><div><dt>Habitat</dt><dd><code>${i.where}</code></dd></div>
+    <div><dt>Field marks</dt><dd>${i.marks}</dd></div>
+    <div><dt>Why it matters</dt><dd>${i.why}</dd></div></dl>`;
+  const btn = el("button", "spot");
+  btn.type = "button";
+  const paint = () => { const on = !!state.spotted[i.id]; btn.setAttribute("aria-pressed", on); btn.textContent = on ? "Spotted ✓" : "Mark spotted"; card.classList.toggle("spotted", on); };
+  btn.addEventListener("click", () => { state.spotted[i.id] = !state.spotted[i.id]; paint(); save(); });
+  paint(); card.appendChild(btn); ideasEl.appendChild(card);
+}
+
+// Experiments
+const trialsEl = document.getElementById("trials");
+for (const t of TRIALS) {
+  const li = el("li", "trial");
+  const id = "trial-" + t.id;
+  li.innerHTML = `<input type="checkbox" id="${id}"><label for="${id}"><strong>${t.title}</strong><span>${t.body}</span>${t.code ? `<pre>${t.code}</pre>` : ""}</label>`;
+  const box = li.querySelector("input");
+  box.checked = !!state.trials[t.id];
+  box.addEventListener("change", () => { state.trials[t.id] = box.checked; save(); });
+  trialsEl.appendChild(li);
+}
+
+// Quiz
+const quizEl = document.getElementById("quiz");
+for (const q of QUIZ) {
+  const fs = el("fieldset", "q");
+  fs.innerHTML = `<legend>${q.text}</legend>`;
+  const opts = el("div", "opts"); const why = el("p", "why");
+  const paint = () => {
+    const pick = state.quiz[q.id];
+    [...opts.children].forEach((b, n) => { b.classList.toggle("right", pick != null && n === q.right); b.classList.toggle("wrong", pick === n && n !== q.right); });
+    why.textContent = pick == null ? "" : (pick === q.right ? "Right. " : "Not quite. ") + q.why;
+  };
+  q.opts.forEach((o, n) => {
+    const b = el("button", "opt"); b.type = "button"; b.textContent = o;
+    b.addEventListener("click", () => { state.quiz[q.id] = n; paint(); save(); });
+    opts.appendChild(b);
+  });
+  fs.append(opts, why); quizEl.appendChild(fs); paint();
+}
+
+// Stickers
+function glyph(kind) {
+  const g = {
+    chip: '<rect x="36" y="36" width="32" height="32" rx="4" /><path d="M42 30 V36 M52 30 V36 M62 30 V36 M42 68 V74 M52 68 V74 M62 68 V74 M30 42 H36 M30 52 H36 M30 62 H36 M68 42 H74 M68 52 H74 M68 62 H74" fill="none" />',
+    wrench: '<path d="M64 30 A12 12 0 0 0 52 46 L32 66 A5 5 0 0 0 40 74 L60 54 A12 12 0 0 0 76 42 L68 46 L60 40 L64 30 Z" stroke-linejoin="round" />',
+    wave: '<path d="M28 52 L38 52 L44 36 L52 68 L58 44 L64 58 L68 52 L78 52" fill="none" stroke-linejoin="round" stroke-linecap="round" />',
+    checklist: '<rect x="32" y="30" width="40" height="46" rx="4" /><path d="M38 42 L42 46 L48 38 M54 43 H66 M38 56 L42 60 L48 52 M54 57 H66" fill="none" stroke-linecap="round" />',
+    paw: '<ellipse cx="52" cy="62" rx="13" ry="11" /><circle cx="36" cy="46" r="6" /><circle cx="46" cy="38" r="6" /><circle cx="58" cy="38" r="6" /><circle cx="68" cy="46" r="6" />',
+  };
+  return g[kind];
+}
+function earned() {
+  const all = (obj, list) => list.every(x => obj[x.id]);
+  const flash = true, whisperer = all(state.spotted, IDEAS), selftester = all(state.trials, TRIALS);
+  const keeper = QUIZ.every(q => state.quiz[q.id] === q.right);
+  return { flash, whisperer, selftester, keeper, complete: flash && whisperer && selftester && keeper };
+}
+function renderStickers() {
+  const got = earned(); const box = document.getElementById("stickers"); box.innerHTML = "";
+  let n = 0;
+  for (const s of STICKERS) {
+    const has = got[s.id]; if (has) n++;
+    const d = el("div", "sticker " + (has ? "got" : "locked"));
+    d.innerHTML = `<svg viewBox="0 0 104 104" role="img" aria-label="${s.name} sticker${has ? "" : " (locked)"}">
+      <circle cx="52" cy="52" r="46" fill="var(${s.color})" stroke="var(--ink)" stroke-width="5" />
+      <circle cx="52" cy="52" r="38" fill="none" stroke="var(--card)" stroke-width="3" stroke-dasharray="4 6" />
+      <g fill="var(--card)" stroke="var(--ink)" stroke-width="4">${glyph(s.glyph)}</g></svg>
+      <b>${has ? s.name : "???"}</b><span>${s.how}</span>`;
+    box.appendChild(d);
+  }
+  document.getElementById("progress").textContent = `${n} of ${STICKERS.length} stickers earned · ${Object.values(state.spotted).filter(Boolean).length}/9 ideas spotted · ${Object.values(state.trials).filter(Boolean).length}/5 experiments done`;
+}
+renderStickers();
+</script>

@@ -26,6 +26,7 @@ class Display {
   virtual void drawLine(int x0, int y0, int x1, int y1, uint16_t color) = 0;
   virtual void drawText(int x, int y, const char* text, uint16_t color, int size = 1) = 0;
   virtual void endFrame() = 0;  // push the finished frame to the screen
+  virtual void setBrightness(uint8_t level) = 0;  // backlight 0 (off) .. 255
 };
 
 // One frame's worth of input. Buttons are the Core2's three touch buttons under the screen.
