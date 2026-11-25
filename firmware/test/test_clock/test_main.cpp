@@ -2,6 +2,7 @@
 #include <unity.h>
 
 #include "petcore/Clock.h"
+#include "petcore/TimeUtil.h"
 
 using namespace petcore;
 
@@ -59,6 +60,24 @@ void test_jump_skips_ahead() {
   TEST_ASSERT_EQUAL_INT64(start + 3'600'000, clock.nowMs());
 }
 
+void test_civil_round_trip() {
+  // Leap day, year end, epoch and a pre-1970 date all survive the round trip.
+  const int cases[][6] = {{2026, 11, 24, 20, 11, 31}, {2028, 2, 29, 23, 59, 59},
+                          {2026, 12, 31, 0, 0, 0},    {1970, 1, 1, 0, 0, 0},
+                          {1969, 12, 31, 12, 30, 5}};
+  for (const auto& c : cases) {
+    const int64_t ms = petcore::timeutil::localMsFromCivil(c[0], c[1], c[2], c[3], c[4], c[5]);
+    int y, mo, d, h, mi, se;
+    petcore::timeutil::civilFromLocalMs(ms, y, mo, d, h, mi, se);
+    TEST_ASSERT_EQUAL_INT(c[0], y);
+    TEST_ASSERT_EQUAL_INT(c[1], mo);
+    TEST_ASSERT_EQUAL_INT(c[2], d);
+    TEST_ASSERT_EQUAL_INT(c[3], h);
+    TEST_ASSERT_EQUAL_INT(c[4], mi);
+    TEST_ASSERT_EQUAL_INT(c[5], se);
+  }
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_elapsed_tracker_ignores_backwards_jumps);
@@ -66,5 +85,6 @@ int main() {
   RUN_TEST(test_changing_speed_does_not_jump_time);
   RUN_TEST(test_speed_zero_pauses);
   RUN_TEST(test_jump_skips_ahead);
+  RUN_TEST(test_civil_round_trip);
   return UNITY_END();
 }

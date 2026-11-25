@@ -18,6 +18,10 @@ int64_t daysFromCivil(int year, unsigned month, unsigned day);
 int64_t localMsFromCivil(int year, unsigned month, unsigned day, unsigned hour = 0,
                          unsigned minute = 0, unsigned second = 0);
 
+// The inverse: local ms back to a calendar date and time (Hinnant's civil_from_days).
+void civilFromLocalMs(int64_t localMs, int& year, int& month, int& day, int& hour, int& minute,
+                      int& second);
+
 // 0 = Sunday ... 6 = Saturday.
 int weekday(int64_t localMs);
 

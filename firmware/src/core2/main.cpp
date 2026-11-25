@@ -1,6 +1,7 @@
 // M5Stack Core2 entry point. Same game core as the simulator; real RTC, IMU and touch.
 
 #include <M5Unified.h>
+#include <Preferences.h>
 #include <esp_timer.h>
 
 #include <cmath>
@@ -40,29 +41,50 @@ BuildTime buildTime() {
   return b;
 }
 
+constexpr const char* kBuildStamp = __DATE__ " " __TIME__;
+// Compile -> upload -> boot takes about this long, so the stamp is that far behind real time.
+constexpr int64_t kFlashLagMs = 25 * 1000;
+
+void setRtc(int64_t localMs) {
+  int year, month, day, hour, minute, second;
+  petcore::timeutil::civilFromLocalMs(localMs, year, month, day, hour, minute, second);
+  m5::rtc_datetime_t dt;
+  dt.date.year = year;
+  dt.date.month = month;
+  dt.date.date = day;
+  dt.time.hours = hour;
+  dt.time.minutes = minute;
+  dt.time.seconds = second;
+  M5.Rtc.setDateTime(dt);
+}
+
 class RtcClock : public petcore::Clock {
  public:
+  // Every fresh flash sets the clock once: the device remembers (in flash, via Preferences)
+  // which build last set it. A new build sets the RTC from its build stamp whether the clock
+  // was ahead or behind (a factory clock can be either); later boots keep the RTC's time,
+  // except that it may never read earlier than the build (flat backup battery).
+  // Until Wi-Fi time sync (Stage 6) this is how a board gets the right time.
   void begin() {
     const BuildTime b = buildTime();
     const int64_t buildMs =
-        petcore::timeutil::localMsFromCivil(b.year, b.month, b.day, b.hour, b.minute, b.second);
+        petcore::timeutil::localMsFromCivil(b.year, b.month, b.day, b.hour, b.minute, b.second) +
+        kFlashLagMs;
     int64_t rtcMs = buildMs;  // if the RTC can't be read at all
     if (M5.Rtc.isEnabled()) {
       const auto dt = M5.Rtc.getDateTime();
       rtcMs = petcore::timeutil::localMsFromCivil(dt.date.year, dt.date.month, dt.date.date,
                                                   dt.time.hours, dt.time.minutes,
                                                   dt.time.seconds);
-      if (rtcMs < buildMs) {  // never set, or reset by a flat backup battery
-        m5::rtc_datetime_t fix;
-        fix.date.year = b.year;
-        fix.date.month = b.month;
-        fix.date.date = b.day;
-        fix.time.hours = b.hour;
-        fix.time.minutes = b.minute;
-        fix.time.seconds = b.second;
-        M5.Rtc.setDateTime(fix);
+      Preferences prefs;
+      prefs.begin("clock", false);
+      const bool newBuild = prefs.getString("build", "") != String(kBuildStamp);
+      if (newBuild || rtcMs < buildMs) {
+        setRtc(buildMs);
         rtcMs = buildMs;
+        prefs.putString("build", kBuildStamp);
       }
+      prefs.end();
     }
     offsetMs_ = rtcMs - esp_timer_get_time() / 1000;
   }
